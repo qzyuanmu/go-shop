@@ -1,0 +1,453 @@
+﻿<!DOCTYPE  html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>{{.Title}}</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
+    <meta name="keywords" content="{{.KeyWords}}" />
+    <meta name="description" content="{{.Description}}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/static/addons/ace/assets/js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/static/tpl/market/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/68ecshop_commin.css" />
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/style_jm.css" />
+
+
+
+    <script type="text/javascript" src="/static/tpl/market/js/jquery-lazyload.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jqueryAll.index.min.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jump.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".brand-wall-content img").each(function (k, img) {
+                new JumpObj(img, 10);
+            });
+        });
+        var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+        var btn_buy = "购买";
+        var is_cancel = "取消";
+        var select_spe = "请选择商品属性";
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/jquery.json.js">
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/transport.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/utils.js"></script>
+
+    <script type="text/javascript" src="/static/tpl/market/js/common.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/common.min.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/shopping_flow.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/showdiv.js"></script>
+
+    <style>
+        #zhim{
+            font-size:12px;
+            color:green;
+        }
+    </style>
+
+</head>
+
+
+
+<body style="cursor: auto;">
+    {{template "tpl/market/share/_top_box.html" .}}		
+
+
+
+ <div class="headerLayout" style="padding-top: 15px; padding-bottom: 5px;">
+     <div class="headerCon ">
+         <h1 id="mallLogo" style="padding-top: 10px;">
+             <a href= '{{urlfor "MkController.Index"}}' class="header-logo">
+                 <img src="/static/img/logo.png" /></a></h1>
+         <div class="header-extra">
+         </div>
+     </div>
+ </div>
+
+    <div class="block_jm">
+        <div id="A_Stepbar" class="flowstep">
+            <ol class="flowstep-5">
+                <li class="step-first">
+                    <div class="step-done">
+                        <div class="step-name">查看购物车</div>
+                        <div class="step-no"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-name">拍下商品</div>
+                    <div class="step-no">2</div>
+                </li>
+                <li>
+                    <div class="step-name">付款</div>
+                    <div class="step-no">3</div>
+                </li>
+                <li>
+                    <div class="step-name">确认收货</div>
+                    <div class="step-no">4</div>
+                </li>
+                <li class="step-last">
+                    <div class="step-name">评价</div>
+                    <div class="step-no">5</div>
+                </li>
+            </ol>
+        </div>
+
+
+
+        <script type="text/javascript">
+            var user_name_empty = "请输入您的用户名！";
+            var email_address_empty = "请输入您的电子邮件地址！";
+            var email_address_error = "您输入的电子邮件地址格式不正确！";
+            var new_password_empty = "请输入您的新密码！";
+            var confirm_password_empty = "请输入您的确认密码！";
+            var both_password_error = "您两次输入的密码不一致！";
+            var show_div_text = "请点击更新购物车按钮";
+            var show_div_exit = "关闭";
+        </script>
+        <div class="blank5"></div>
+
+
+        <div class="flowBox_jm" style="margin-top: 10px;">
+            <div class="title_jm">
+                <table cellpadding="0" cellspacing="0" width="100%" border="0">
+                    <tbody>
+                        <tr>
+                            <!-- <td width="8%" align="center">
+               <input type="checkbox" autocomplete="off" id="chkAll" name="chkAll" checked="true" 
+                  onclick="return chkAll_onclick()" style="height:28px;vertical-align:middle;"> 
+                            全选</td>-->
+          
+          <td width="37%" align="center">产品</td>
+                            <td width="15%" align="center">数量</td>
+                            <td width="15%" align="center">本店价</td>
+                            <td width="15%" align="center">小计</td>
+                            <td width="10%" align="center">操作</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form id="formCart1" name="formCart" method="post" action="#">
+              
+                
+                 {{range $i,$c :=.carts.Carts}} 
+                <table align="center" cellpadding="0" cellspacing="0" style="height:auto;width:100%;">
+<tbody><tr height="35">
+  <td style="border-top:2px solid #d9d9d9; text-indent:19px; background:#FAFAFA;font-weight:bold;color:#FF0000">
+      店铺：{{$c.Shop.Name}}<input type="hidden" name="supplierid" id="supplierid" value="38"></td>
+</tr>
+</tbody></table>
+                {{range $c.Products}}
+
+                <table align="center" cellpadding="0" cellspacing="0" style="height: auto; width: 100%;">
+                    <tbody>
+                       
+
+
+                        <tr>
+                            <td style="width: 100%;">
+                                <table cellpadding="5" cellspacing="1" border="0" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <!--<td align="center" width="5%">
+                                                <input type="checkbox" autocomplete="off" name="sel_cartgoods[]" value="8575" id="sel_cartgoods_8575" checked="checked" onclick="select_cart_goods();">
+
+                                            </td>-->
+
+                                            <td align="center" width="40%">
+
+                                                <div class="thumb_name">
+                                                    <dl>
+                                                        <dt><a href='{{urlfor "MkController.Product" "pId" .Id}}'target="_blank">
+                                                            <img src="/{{.MinImg}}" border="0" 
+                                                                title="{{.Name}}"></a> </dt>
+                                                        <dd><a href='{{urlfor "MkController.Product" "pId" .Id}}' target="_blank" 
+                                                            class="f6">{{.Name}}</a>
+                                                            <br>
+                                                            <font class="attrname">规格:{{.CartTypeName}} <br/></font>
+
+
+                                                        </dd>
+                                                    </dl>
+                                                </div>
+
+                                            </td>
+                                            <td align="center" width="15%">
+                                                <div class="jm_cartnum">
+                                                    <span class="jmminu" onclick="minus_num({{.CartId}},8746,38,0);">-</span>
+                                                    <input type="text" name="goods_number[{{.CartId}}]" id="goods_number_{{.CartId}}" 
+                                                        value="{{.CartQuantity}}" size="4" class="jminputBg" 
+                                                        onkeydown="if(event.keyCode == 13) event.returnValue = false"
+                                                         onblur="change_price({{.CartId}},8746,0)"/>
+                                                    <input type="hidden" id="hidden_8575" value="1"/>
+                                                    <span class="jmadd" onclick="javascript:add_num({{.CartId}},8746,38,0)">+</span>
+                                                </div>
+
+                                            </td>
+                                            <td align="center" width="15%"><font class="cart_jmprice" id="goods_price_8575">￥{{.Price|fp}}</font></td>
+                                            <td align="center" width="15%"><font class="cart_jmprice" id="subtotal_8575">￥{{.CartMoney|fp}}</font></td>
+                                            <td align="center" width="10%"><a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) del_num({{.CartId}});" class="f6">移除</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+                {{end}}
+               {{end}}
+
+                <input type="hidden" name="step" id="actname" value="update_cart">
+            </form>
+            <table width="100%" align="center" border="0" cellpadding="5" cellspacing="6" style="border-top: 1px solid #ddd;">
+                <tbody>
+                    <tr>
+                        <td width="150"><a href="./" class="continue_buy">继续购物</a></td>
+                        <td align="right" width="80"><a href="flow.php?step=clear" class="jmclear"><font color="#aaaaaa">清空购物车 </font></a></td>
+                        <td align="right" id="cart_money_info">应付总额：<span> ￥{{.carts.SumMoney|fp}}{{if ne .carts.SumZhim 0}}<span id="zhim">  +{{.carts.SumZhim}}</span>{{end}}</span>，红包数：<span> {{.carts.SumRed}}个</span></td>
+                        <td align="right" width="150"><a href="javascript:void(0);" onclick="return selcart_submit();" class="jmcheckout" style="color: #ffffff">去结算</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <script type="text/javascript" charset="utf-8">
+                function chkAll_onclick() {
+                    var obj = document.getElementById('chkAll');
+                    var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+                    for (var i = 0; i < obj_cartgoods.length; i++) {
+                        var e = obj_cartgoods[i];
+
+                        if (e.name != 'chkAll') {
+                            e.checked = obj.checked;
+                        }
+                    }
+                    select_cart_goods();
+                }
+                function select_cart_goods() {
+                    var sel_goods = new Array();
+                    var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+                    var suppid = document.getElementById('supplierid');
+                    var j = 0;
+                    var c = true;
+                    for (i = 0; i < obj_cartgoods.length; i++) {
+                        if (obj_cartgoods[i].checked == true) {
+                            sel_goods[j] = obj_cartgoods[i].value;
+                            j++;
+                        } else {
+                            c = false;
+                        }
+                    }
+                    document.getElementById('chkAll').checked = c;
+                    //Ajax.call('flow.php', 'act=selcart&sel_goods=' + sel_goods + '&suppid=' + suppid, selcartResponse, 'GET', 'JSON');
+                }
+                function selcartResponse(res) {
+                    if (res.err_msg.length > 0) {
+                        alert(res.err_msg);
+                    }
+                    else {
+                        document.getElementById('cart_money_info').innerHTML = res.result;
+                        if (document.getElementById('zk_' + res.suppid)) {
+                            document.getElementById('zk_' + res.suppid).innerHTML = res.your_discount;
+                        }
+                    }
+                }
+                function selcart_submit() {
+                    window.location.href = '{{urlfor "UserCenterController.Order"}}';
+
+                    return;
+                    var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+                    var formobj = document.getElementById('formCart1');
+                    var j = 0;
+                    for (i = 0; i < obj_cartgoods.length; i++) {
+                        if (obj_cartgoods[i].checked == true) {
+                            j++;
+                        }
+                    }
+                    if (j > 0) {
+
+                        formobj.action = 'flow.php?step=checkout';
+                        document.getElementById('actname').value = 'checkout';
+                        formobj.submit();
+                        return true;
+                    }
+                    else {
+                        alert('您还没有选择商品哦！');
+                        return false;
+                    }
+                }
+            </script>
+
+
+            <script>
+                function add_num(rec_id, goods_id, supp_id, is_package) {
+
+                    document.getElementById("goods_number_" + rec_id + "").value++;
+                    var sel_goods = new Array();
+                    var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+                    var j = 0;
+                    for (i = 0; i < obj_cartgoods.length; i++) {
+                        if (obj_cartgoods[i].checked == true) {
+                            sel_goods[j] = obj_cartgoods[i].value;
+                            j++;
+                        }
+                    }
+                    var number = document.getElementById("goods_number_" + rec_id + "").value;
+                    $.post('{{urlfor "UserCenterController.EditCart"}}', { cId: rec_id, q: number }, function (d) {
+                        if (d.Result == 0) {
+                            alert(d.Msg);
+                        }
+                        if(d.Result==1)
+                        {
+                            window.location.reload();
+                        }
+
+                    });
+                }
+
+                function minus_num(rec_id, goods_id, supp_id, is_package) {
+                    if (document.getElementById("goods_number_" + rec_id + "").value > 1) {
+                        document.getElementById("goods_number_" + rec_id + "").value--;
+                    }
+                    var sel_goods = new Array();
+                    var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+                    var j = 0;
+                    for (i = 0; i < obj_cartgoods.length; i++) {
+                        if (obj_cartgoods[i].checked == true) {
+                            sel_goods[j] = obj_cartgoods[i].value;
+                            j++;
+                        }
+                    }
+                    var number = document.getElementById("goods_number_" + rec_id + "").value;
+                    $.post('{{urlfor "UserCenterController.EditCart"}}', { cId: rec_id, q: number }, function (d) {
+                        if (d.Result == 0) {
+                            alert(d.Msg);
+                        }
+                        if (d.Result == 1) {
+                            window.location.reload();
+                        }
+
+                    });
+                }
+
+              function  del_num(rec_id){
+                    $.post('{{urlfor "UserCenterController.EditCart"}}', { cId: rec_id, q: 0 }, function (d) {
+                        if (d.Result == 0) {
+                            alert(d.Msg);
+                        }
+                        if(d.Result==1)
+                        {
+                            window.location.reload();
+                        }
+
+                    });
+
+                }
+
+
+
+
+
+                function change_price(rec_id, goods_id, is_package) {
+                    var r = /^[1-9]+[0-9]*]*$/;
+                    var number = document.getElementById("goods_number_" + rec_id + "").value;
+                    if (!r.test(number)) {
+                        alert("您输入的格式不正确！");
+                        document.getElementById("goods_number_" + rec_id + "").value = document.getElementById("hidden_" + rec_id + "").value;
+                    }
+                    else {
+                        var sel_goods = new Array();
+                        var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+                        var j = 0;
+                        for (i = 0; i < obj_cartgoods.length; i++) {
+                            if (obj_cartgoods[i].checked == true) {
+                                sel_goods[j] = obj_cartgoods[i].value;
+                                j++;
+                            }
+                        }
+                        //Ajax.call('flow.php','step=update_group_cart&sel_goods='+ sel_goods +'&rec_id=' + rec_id +'&number=' + number+'&goods_id=' + goods_id + '&is_package=' + is_package, changePriceResponse, 'GET', 'JSON');
+                    }
+                }
+
+                function changePriceResponse(result) {
+                    if (result.error == 1) {
+                        alert(result.content);
+                        document.getElementById("goods_number_" + result.rec_id + "").value = result.number;
+                        document.getElementById("hidden_" + result.rec_id + "").value = result.number;
+                    }
+                    else if (result.error == 999) {
+                        if (confirm(result.message)) {
+                            location.href = 'user.php';
+                        }
+                    }
+                    else if (result.error == 888) {
+                        alert(result.message);
+                        document.getElementById("goods_number_" + result.rec_id + "").value = result.number;
+                        document.getElementById("hidden_" + result.rec_id + "").value = result.number;
+                    }
+                    else {
+                        document.getElementById("sel_cartgoods_" + result.rec_id).checked = true;//被操作商品选中
+                        document.getElementById("hidden_" + result.rec_id + "").value = result.number;
+                        document.getElementById("goods_price_" + result.rec_id).innerHTML = result.goods_price;//商品价格
+                        document.getElementById('subtotal_' + result.rec_id).innerHTML = result.subtotal;//商品总价
+                        document.getElementById('cart_money_info').innerHTML = result.market_amount_desc;//购物车商品总价说明
+                        document.getElementById('zk_' + result.suppid).innerHTML = result.your_discount;//折扣活动说明
+                        show_div_text = "恭喜您！ 商品数量修改成功！ ";
+                        showdiv(document.getElementById("goods_number_" + result.rec_id));
+                    }
+
+                }
+            </script>
+
+
+
+            <script type="text/javascript" charset="utf-8">
+                function collect_to_flow(goodsId) {
+                    var goods = new Object();
+                    var spec_arr = new Array();
+                    var fittings_arr = new Array();
+                    var number = 1;
+                    goods.spec = spec_arr;
+                    goods.goods_id = goodsId;
+                    goods.number = number;
+                    goods.parent = 0;
+                    //Ajax.call('flow.php?step=add_to_cart', 'goods=' + goods.toJSONString(), collect_to_flow_response, 'POST', 'JSON');
+                }
+                function collect_to_flow_response(result) {
+                    if (result.error > 0) {
+                        // 如果需要缺货登记，跳转
+                        if (result.error == 2) {
+                            if (confirm(result.message)) {
+                                location.href = 'user.php?act=add_booking&id=' + result.goods_id;
+                            }
+                        }
+                        else if (result.error == 6) {
+                            openSpeDiv(result.message, result.goods_id);
+                        }
+                        else {
+                            alert(result.message);
+                        }
+                    }
+                    else {
+                        location.href = 'flow.php';
+                    }
+                }
+            </script>
+
+        </div>
+
+
+
+        <div class="blank"></div>
+
+
+    </div>
+
+    {{template "tpl//market/share/_bottom_box.html" .}}	
+
+ 
+
+ 
+	  
+</body>
+</html>

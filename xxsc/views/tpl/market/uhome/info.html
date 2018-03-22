@@ -1,0 +1,298 @@
+﻿<link href="/static/tpl/market/css/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="/static/addons/jQuery-File-Upload/css/jquery.fileupload.css">
+<script src="/static/addons/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/addons/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+<!-- <script type="text/javascript" src="js/region.js"></script>
+  <script type="text/javascript" src="js/shopping_flow.js"></script>-->
+<script src="/static/js/city.js"></script>
+<script>
+    $(function () {
+        setUpload();
+
+    });  
+
+    function userEdit() {
+
+
+        var data = $("#formEdit").serialize();
+        $.post('{{urlfor "JsonUserController.EditUser"}}', data , function (d) {
+            if (d.Result == 1) {
+                 
+                alert("修改成功！");
+
+            } else {
+                alert(d.Msg);
+            }
+        });
+        return false;
+
+        
+    }
+
+
+
+    function changeImg() {
+        var img = $("#user_img").attr("i");
+        $.post('{{urlfor "JsonUserController.EditUser"}}', { UserImg: img }, function (d) {
+            if (d.Result == 1) {
+                $("#headImagePath").attr("src", "/" + d.Data.UserImg);
+
+
+            } else {
+                alert(d.Msg);
+            }
+        });
+        return false;
+    }
+
+    function setUpload() {
+        var url2 = '{{urlfor "UpImgController.JqUp2"}}';
+        $('#fileupload2').fileupload({
+            url: url2,
+            dataType: 'json',
+            done: function (e, data) {
+                var r = data.result;
+
+                $("#user_img").attr("src", "/" + r.url).attr("i", r.url);
+            },
+        }).prop('disabled', !$.support.fileInput)
+       .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+    }
+</script>
+
+<div class="blank"></div>
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a>
+        <code>&gt;</code> 用户中心
+    </div>
+</div>
+<div class="blank"></div>
+
+<div class="block clearfix">
+    {{template "tpl/market/share/_u_menu.html" .}}	
+
+     <div class="AreaR">
+         <div class="box">
+             <div class="box_1">
+                 <div class="userCenterBox boxCenterList clearfix">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     <script type="text/javascript">
+                         var bonus_sn_empty = "请输入您要添加的红包号码！";
+                         var bonus_sn_error = "您输入的红包号码格式不正确！";
+                         var email_empty = "请输入您的电子邮件地址！";
+                         var email_error = "您输入的电子邮件地址格式不正确！";
+                         var old_password_empty = "请输入您的原密码！";
+                         var new_password_empty = "请输入您的新密码！";
+                         var confirm_password_empty = "请输入您的确认密码！";
+                         var both_password_error = "您现两次输入的密码不一致！";
+                         var msg_blank = "不能为空";
+                         var no_select_question = "- 您没有完成密码提示问题的操作";
+                     </script>
+                     <script>
+                         /*第一种形式 第二种形式 更换显示样式*/
+                         function setTabCatGoods(name, cursel, n) {
+                             for (i = 1; i <= n; i++) {
+                                 var menu = document.getElementById(name + i);
+                                 var con = document.getElementById("con_" + name + "_" + i);
+                                 con.style.display = i == cursel ? "block" : "none";
+                                 menu.className = i == cursel ? "active" : "";
+                             }
+                         }
+                     </script>
+                     <div class="tabmenu">
+                         <ul class="tab pngFix">
+                             <li class="active" id="tab1" onclick="setTabCatGoods('tab',1,3)">基本信息</li>
+                             <li class="" id="tab2" onclick="setTabCatGoods('tab',2,3)">更换头像</li>
+                         </ul>
+                     </div>
+                     <div class="ncm-user-profile">
+                         <div class="ncm-default-form" id="con_tab_1" style="display: block;">
+                             <form name="formEdit" action='#' method="post"  id="formEdit"
+                                 >
+                                 <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#E6E6E6">
+                                     <tbody>
+                                         <tr>
+                                             <td width="28%" align="right" bgcolor="#FFFFFF">账户名：</td>
+                                             <td width="72%" align="left" bgcolor="#FFFFFF">
+
+                                                 <label class="j_label">{{.user.UserName}}</label>
+                                             </td>
+                                         </tr>
+
+
+
+                                         <tr>
+                                             <td width="28%" align="right" bgcolor="#FFFFFF">邮箱：</td>
+                                             <td width="72%" align="left" bgcolor="#FFFFFF">
+                                                 <label class="j_label">{{.user.Email}}</label>
+
+                                             </td>
+                                         </tr>
+
+                                         <tr>
+                                             <td width="28%" align="right" bgcolor="#FFFFFF">真实姓名：</td>
+                                             <td width="72%" align="left" bgcolor="#FFFFFF">
+                                                 <input type="text" name="RealName" value="{{.user.RealName}}" class="inputBg"></td>
+                                         </tr>
+                                         <tr>
+                                             <td align="right" bgcolor="#FFFFFF">身份证号：</td>
+                                             <td align="left" bgcolor="#FFFFFF">
+                                                 <input type="text" name="IdCard" value="{{.user.IdCard}}" class="inputBg"></td>
+                                         </tr>
+
+                                         <tr>
+                                             <td align="right" bgcolor="#FFFFFF">现居地：</td>
+                                             <td align="left" bgcolor="#FFFFFF">
+
+                                                 <select name="ProvinceId" id="ProvinceId" onchange="getCity(this)">
+
+
+                                                     <option value="0">省份</option>
+                                                     {{range .provinces}}
+                                        <option value="{{.Id}}" 
+                                             {{if eq .Id $.user.ProvinceId}}selected{{end}}
+                                            >{{.Name}}</option>
+                                                     {{end}}
+
+                                                 </select>
+                                                 <select name="CityId" id="CityId" onchange="getDistrict(this)">
+                                                     <option value="0">地市</option>
+                                                        {{range .citys}}
+                                        <option value="{{.Id}}" 
+                                             {{if eq .Id $.user.CityId}}selected{{end}}
+                                            >{{.Name}}</option>
+                                                     {{end}}
+
+                                                 </select>
+
+                                                 <select name="DistrictId" id="DistrictId">
+                                                     <option value="0">县区</option>
+
+                                                        {{range .districts}}
+                                        <option value="{{.Id}}" 
+                                             {{if eq .Id $.user.DistrictId}}selected{{end}}
+                                            >{{.Name}}</option>
+                                                     {{end}}
+
+
+                                                 </select>
+
+
+
+
+                                             </td>
+                                         </tr> 
+
+                                         <tr>
+                                             <td colspan="2" align="center" bgcolor="#FFFFFF">
+                                                 <label class="submit-border">
+                                                     
+                                                     <input name="submit"  
+                                                          onclick="userEdit()"
+                                                          class="bnt_blue_1" value="确认修改">
+                                                 </label>
+                                             </td>
+                                         </tr>
+
+                                     </tbody>
+                                 </table>
+                             </form>
+                         </div>
+                         <div class="ncm-default-form" id="con_tab_2" style="display: none;">
+                             <form name="formEdit" action="#" method="post">
+                                 <dl>
+                                     <dt>头像预览：</dt>
+                                     <dd>
+                                         <div class="user-avatar">
+                                             <span>
+                                                 <img id="user_img" src="/{{.user.UserImg}}" style="width: 120px; height: 120px" />
+
+                                             </span>
+                                         </div>
+                                         <p class="hint mt5">
+                                             完善个人信息资料，上传头像图片有助于您结识更多的朋友。<br>
+                                             <span style="color: orange;">头像最佳默认尺寸为120x120像素,需jpg格式。</span>
+                                         </p>
+                                     </dd>
+                                 </dl>
+                                 <dl>
+                                     <dt style="vertical-align: middle">更换头像：</dt>
+                                     <dd style="vertical-align: middle">
+                                         <div class="ncm-upload-btn">
+                                             <span class="btn btn-success fileinput-button col-xs-2">
+                                                 <i class="glyphicon glyphicon-plus"></i>
+                                                 <span>上传照片</span>
+
+                                                 <input id="fileupload2" type="file" name="files[]" multiple="">
+                                             </span>
+                                         </div>
+                                     </dd>
+                                 </dl>
+                                 <dl>
+                                     <dt>&nbsp;</dt>
+                                     <dd>
+                                         <label class="submit-border">
+
+                                             <input
+                                                 onclick="changeImg()"
+                                                 type="submit" class="bnt_blue_1" style="border: none;" value="修改头像">
+                                         </label>
+                                     </dd>
+                                 </dl>
+                             </form>
+                         </div>
+                         <div class="ncm-default-form" id="con_tab_3" style="display: none;">
+
+                             <script type="text/javascript">
+                                 //region.isAdmin = false;
+                                 var consignee_not_null = "收货人姓名不能为空！";
+                                 var country_not_null = "请您选择收货人所在国家！";
+                                 var province_not_null = "请您选择收货人所在省份！";
+                                 var city_not_null = "请您选择收货人所在城市！";
+                                 var district_not_null = "请您选择收货人所在区域！";
+                                 var invalid_email = "您输入的邮件地址不是一个合法的邮件地址。";
+                                 var address_not_null = "收货人的详细地址不能为空！";
+                                 var tele_not_null = "固定电话不能为空！";
+                                 var shipping_not_null = "请您选择配送方式！";
+                                 var payment_not_null = "请您选择支付方式！";
+                                 var goodsattr_style = "1";
+                                 var tele_invaild = "固定电话号码不有效的号码，\n请输入形如：区号-电话号码-分机号 的数字，\n如：0335-6025437或021-31756512";
+                                 var zip_not_num = "邮政编码只能填写数字";
+                                 var mobile_not_null = "手机号码不能为空!";
+                                 var mobile_invaild = "手机号码不是合法号码";
+                                 var mobile_or_tel_not_null = "手机号码和固定电话至少要填写一项";
+
+                                 
+
+                             </script>
+                            
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+
+         </div>
+     </div>
+
+    <div style="height: 10px; line-height: 10px; clear: both;"></div>
+    <div class="blank"></div>
+</div>

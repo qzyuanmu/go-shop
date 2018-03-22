@@ -1,0 +1,284 @@
+<div class="sidebar" id="sidebar">
+    <script type="text/javascript">
+        try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+    </script>
+
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+            <button class="btn btn-success">
+                <i class="icon-signal"></i>
+            </button>
+
+            <button class="btn btn-info">
+                <i class="icon-pencil"></i>
+            </button>
+
+            <button class="btn btn-warning">
+                <i class="icon-group"></i>
+            </button>
+
+            <button class="btn btn-danger">
+                <i class="icon-cogs"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
+
+            <span class="btn btn-info"></span>
+
+            <span class="btn btn-warning"></span>
+
+            <span class="btn btn-danger"></span>
+        </div>
+    </div>
+    <!-- #sidebar-shortcuts -->
+    <ul class="nav nav-list"> 
+
+        {{if ge .user.UserRole 10}}
+        <li tag="基础内容">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-cog"></i>
+                <span class="menu-text">基础内容</span>
+
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+                 <li tag="基础数据">
+                    <a href='{{urlfor "MarketController.Sys"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        基础数据
+                    </a>
+                </li>
+                <li tag="红包设置">
+                    <a href='{{urlfor "NewsController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        红包设置
+                    </a>
+                </li>
+                  <li tag="权限设置">
+                    <a href='{{urlfor "NewsController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        权限设置
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {{end}}
+          {{if ge .user.UserRole 9}}
+        <li tag="财务管理">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-cog"></i>
+                <span class="menu-text">财务管理</span>
+
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+               
+                   <li tag="会员提现">
+                    <a href='{{urlfor "MarketController.TiXian"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        会员提现
+                    </a>
+                </li>
+
+                  <li tag="退款申请">
+                    <a href='{{urlfor "NewsController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        退款申请
+                    </a>
+                </li>
+                <li tag="供应商结款">
+                    <a href='{{urlfor "NewsController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        供应商结款
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {{end}}
+        
+        {{if ge .user.UserRole 7}}
+        <li tag="商城管理">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-cogs"></i>
+                <span class="menu-text">商城管理</span>
+
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+                 <li tag="信息公告">
+                    <a href='{{urlfor "NewsController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        新闻管理
+                    </a>
+                </li>
+                  <li tag="商城店铺">
+                    <a href='{{urlfor "MarketController.Shop"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        店铺管理
+                    </a>
+                </li>
+                  <li tag="产品管理">
+                    <a href='{{urlfor "ProductController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        产品管理
+                    </a>
+                </li>
+                  <li tag="会员管理">
+                    <a href='{{urlfor "MarketController.User"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        会员管理
+                    </a>
+                </li>
+                
+                  <li tag="供应商管理">
+                    <a href='{{urlfor "MarketController.User"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        供应商管理
+                    </a>
+                </li>
+
+                <li tag="商城分类">
+                    <a href='{{urlfor "MkCategoryController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        商城分类
+                    </a>
+                </li> 
+                  <li tag="图片管理">
+                    <a href='{{urlfor "MarketController.User"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        图片管理
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {{end}}
+
+
+
+
+
+
+
+
+
+
+        
+        {{if ge .user.UserRole 111}}
+        <li tag="公司管理">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-globe"></i>
+                <span class="menu-text">公司管理 </span>
+
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+                <li tag="公司信息">
+                    <a href='{{urlfor "CompanyController.Add"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        公司信息
+                    </a>
+                </li>
+                <li tag="公司栏目">
+                    <a href='{{urlfor "CompanyController.Menu"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        公司栏目
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {{end}}
+
+
+
+
+
+        
+        {{if ge .user.UserRole 3}}
+        <li tag="店铺管理">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-desktop"></i>
+                <span class="menu-text">店铺管理 </span>
+
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+                  <li tag="订单处理">
+                    <a href='{{urlfor "ProductController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        订单处理
+                    </a>
+                </li>
+                <li tag="店铺信息">
+                    <a href='{{urlfor "ShopController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        店铺信息
+                    </a>
+                </li>
+                <li tag="店铺分类">
+                    <a href='{{urlfor "ShopCategoryController.Category"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        店铺分类
+                    </a>
+                </li>
+                <li tag="产品管理">
+                    <a href='{{urlfor "ProductController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        产品管理
+                    </a>
+                </li>
+            </ul>
+        </li>
+        {{end}}
+        
+        {{if ge .user.UserRole 10 }}
+        <li tag="微信管理">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-comments"></i>
+                <span class="menu-text">微信管理 </span>
+
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu">
+                <li tag="微信接入">
+                    <a href='{{urlfor "WxController.Add"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        微信接入
+                    </a>
+                </li>
+                <li tag="自定义菜单">
+                    <a href='{{urlfor "WxMenuController.Index"}}'>
+                        <i class="icon-double-angle-right"></i>
+                        自定义菜单
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {{end}}
+
+    </ul>
+    <!-- /.nav-list -->
+
+
+
+
+
+
+
+
+    <div class="sidebar-collapse" id="sidebar-collapse">
+        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+    </div>
+
+    <script type="text/javascript">
+        try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+    </script>
+</div>

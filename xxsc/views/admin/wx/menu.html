@@ -1,0 +1,360 @@
+<div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">用户中心</a>
+            </li>
+            <li>微信管理</li>
+            <li class="active">自定义菜单</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                自定义菜单管理
+                <small>
+
+                </small>
+            </h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <button class="btn btn-primary" data-toggle="modal" onclick="addMenu()">
+                        <i class="icon-plus align-top bigger-125"></i>
+                        新增
+                    </button>
+                    <button class="btn btn-primary" onclick="createMenu()">
+                        <i class=" icon-share align-top bigger-125"></i>
+                        生成自定义菜单
+                    </button>
+                </p>
+                <!-- PAGE CONTENT BEGINS -->
+
+                <div class="table-responsive">
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover ">
+                        <thead>
+                            <tr>
+
+                                <th>菜单名</th>
+                                <th>类型</th>
+                                <th class="hidden-480">关键词</th>
+
+                                <th>
+                                     
+                                   排序
+                                </th>
+                                <th class="hidden-480">是否启用</th>
+
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+{{range .ms}}
+                            <tr class="j_menu" tag="{{.Id}}">
+                                
+
+                                <td>
+                                {{if gt .ParentId  0}}&nbsp;&nbsp;  |--{{end}}     {{.Name}}
+                                </td>
+                                <td>{{.Type}}</td>
+                                <td class="hidden-480">{{.WxKey}}</td>
+                                <td>{{.Sort}}</td>
+
+                                <td class="hidden-480">
+                                    <label>
+                                        <input name="switch-field-1" onclick="changeMenu(this,{{.Id}})" class="ace ace-switch ace-switch-7" type="checkbox" {{if eq .Status  1}} checked {{end}} >
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+
+                                <td>
+
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+
+
+                                        <button class=" btn  btn-primary  green" onclick="editMenu({{.Id}})"  title="编辑">
+                                            <i class="icon-pencil bigger-130"></i>
+                                        </button>
+
+                                        <button class=" btn btn-danger  red" onclick="delMenu({{.Id}})"  title="删除">
+                                            <i class="icon-trash bigger-130"></i>
+                                        </button>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- form开始  -->
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">自定义菜单编辑</h4>
+                            </div>
+                            <div class="modal-body">
+							
+                                <form id="form_menu_edit" class="  form-horizontal">
+                                    <input type="hidden" id="Id" name="Id"  /> 
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            菜单排序:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="input-mini" id="Sort" name="Sort" /> 
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            上级菜单:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <select class="  col-xs-7" id="ParentId"  name="ParentId">
+                                                <option value="0">无</option> 
+                                                 
+                                                 {{range $i1,$m1:= .ps}} 
+                                                    {{if eq $m1.ParentId 0}}
+                                                    <option value="{{$m1.Id}}">{{$m1.Name}}</option>
+                                                   {{end}}
+                                                {{end}}  
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            菜单名:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text"  id="Name" name="Name" 
+                                                   placeholder="自定义菜单名称" class="col-xs-10 ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"  for="form-field-1">
+                                            菜单类型:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <select class=" col-xs-7" id="Type" name="Type">
+                                                
+                                                <option value="view">跳转URL</option>  
+                                                <option value="click">点击推事件</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            关联关键词:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text"   id="WxKey"  name="WxKey" 
+                                                     placeholder="关键词" class="col-xs-10  " tag="{{.url}}" onblur="setUrl(this)">
+                                        </div>
+                                    </div>
+        <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            Url路径:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text"   id="Url"  name="Url" 
+                                                     placeholder="Url路径" class="col-xs-10  " >
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix  ">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button class="btn btn-info" type="button" onclick="wxEdit()">
+                                                <i class="icon-ok bigger-110"></i> 保存
+                                            </button>
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+ 
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+ 
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        SetSidebar("微信管理");
+        SetSidebar("自定义菜单");
+        $('#Sort').ace_spinner({ value: 20, min: 5, max: 100, step: 5, on_sides: true, icon_up: 'icon-plus smaller-75', icon_down: 'icon-minus smaller-75', btn_up_class: 'btn-danger', btn_down_class: 'btn-success' });
+
+    });
+
+
+
+    function addMenu() {
+        $("#Id").val(0);
+        $("#Sort").val(5);
+        $("#Name").val(null);
+        $("#WxKey").val(null);
+         $("#Type").val(null);
+        $("#Type").val('click');
+        $("#ParentId").val('0');
+        $('#myModal').find('.modal-title').text('新增自定义菜单')
+        $('#myModal').modal('show');
+    }
+
+    function setUrl(e) {
+
+        var v = $(e).val();
+        $("#Url").val($(e).attr("tag")+v);
+
+    }
+
+    function setMenu(m) {
+        
+        $("#Id").val(m.Id);
+        $("#Sort").val(m.Sort);
+        $("#Name").val(m.Name);
+        $("#WxKey").val(m.WxKey);
+         $("#Url").val(m.Url);
+        $("#Type").val(m.Type);
+        $("#ParentId").val(m.ParentId);
+    }
+
+    function editMenu(id) {
+        $.post('{{urlfor "WxMenuController.GetMenu"}}', { id: id }, function (m) {  
+            setMenu(m);
+            $('#myModal').find('.modal-title').text('自定义菜单修改')
+            $('#myModal').modal('show'); 
+        }); 
+    }
+
+
+    function changeMenu(e,id) {
+        if ($(e).is(':checked')) {
+            $.post('{{urlfor "WxMenuController.Edit"}}', {Id:id,Status:1}, function (d) {
+
+                alert(d.Msg);
+
+            });
+
+        } else {
+ 
+            $.post('{{urlfor "WxMenuController.Edit"}}', { Id: id, Status:2 }, function (d) {
+
+                alert(d.Msg);
+
+            });
+
+        }
+
+
+    }
+function createMenu(){
+	
+	$.post('{{urlfor "WxController.CreatMenu"}}',{},function(d){
+		alert(d)
+	});
+	
+}
+
+    function delMenu(id) {
+
+
+
+    }
+
+    function wxEdit() {
+
+        var data = $("#form_menu_edit").serialize();
+        $.post('{{urlfor "WxMenuController.Edit"}}', data, function (d) {
+
+            alert(d.Msg);
+
+        });
+    }
+</script>
+
+<style>
+    .btn {
+        border-width: 0px;
+    }
+</style>
+
+<!--	页尾自定义结束-->

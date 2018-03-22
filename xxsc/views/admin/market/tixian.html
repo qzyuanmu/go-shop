@@ -1,0 +1,215 @@
+<div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">财务管理</a>
+            </li>
+            <li>商城管理</li>
+            <li class="active">会员提现</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                商城管理
+                <small>
+                    <i class="icon-double-angle-right"></i> 会员提现
+                </small>
+            </h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <input class="input-sm" type="text" id="form-field-4" placeholder="姓名">
+                    <input class="ace" type="checkbox" id="id-disable-check">
+                    <span class="lbl"> 未支付</span>
+                    <button class="btn btn-xs btn-primary" data-toggle="modal">
+                        <i class="icon-search align-top bigger-110"></i>
+                        查询
+                    </button>
+                   
+                </p>
+                <!-- PAGE CONTENT BEGINS -->
+
+                <div class="table-responsive">
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover ">
+                        <thead>
+                            <tr>
+
+                                <th>序号</th> 
+                                <th>
+                                    会员名
+                                </th>
+                                 <th> 
+                                   姓名
+                                </th>
+                                 <th> 
+                                   余额
+                                </th> 
+                                <th>提现金额</th>
+                                <th>帐号</th>
+                                <th>日期</th>
+                                <th>状态</th>
+                                <th class="col-xs-2">操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+{{range $i,$t:= .tx}}
+                            <tr class="j_menu" tag="{{.Id}}">
+                                 
+                                <td>
+                                {{$i|row}}
+                                </td>
+                                <td>{{$t.UserName}}</td>
+                           <td>{{$t.RealName}}</td>
+                             
+                                
+
+                                <td>{{$t.Money|fp}}</td>
+                                <td>{{$t.GetMoney|fp}}</td>
+                                <td>{{$t.ZhiFuBao}}</td>
+                                <td>{{ dt $t.CreateTime 1}}</td>
+                                <td>{{$t.FlgValue}}</td>
+                                <td>
+
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                       
+                                        
+                                         <button class="btn btn-xs btn-success">
+												<i class="icon-ok bigger-110"></i>审核
+
+                                        </button>
+
+
+                                        <button class="btn btn-xs btn-success">
+                                            <i class="icon-ok bigger-110"></i>支付
+
+                                        </button>
+ 
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+             
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+ 
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+ 
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        SetSidebar("财务管理");
+        SetSidebar("会员提现");
+ 
+    });
+
+
+
+    function addMenu() {
+        $("#Id").val(0);
+        $("#Sort").val(5);
+        $("#Name").val(null);
+        
+        $("#ParentId").val('0');
+        $('#myModal').find('.modal-title').text('新增店铺分类')
+        $('#myModal').modal('show');
+    }
+
+    function setUrl(e) {
+ 
+
+    }
+
+    function setMenu(m) {
+        
+        $("#Id").val(m.Id);
+        $("#Sort").val(m.DisplayOrder);
+        $("#Name").val(m.Name);
+      
+        $("#ParentId").val(m.ParentId);
+    }
+
+    function editMenu(id) {
+        $.post('{{urlfor "ShopCategoryController.GetMenu"}}', { id: id }, function (m) {  
+            setMenu(m);
+            $('#myModal').find('.modal-title').text('店铺分类修改')
+            $('#myModal').modal('show'); 
+        }); 
+    }
+
+
+     
+function createMenu(){
+	
+    $.post('{{urlfor "ShopCategoryController.CreatMenu"}}', {}, function (d) {
+		alert(d)
+	});
+	
+}
+
+    function delMenu(id) {
+
+
+
+    }
+
+    function wxEdit() {
+
+        var data = $("#form_menu_edit").serialize();
+        $.post('{{urlfor "ShopCategoryController.Edit"}}', data, function (d) {
+            if (d.Result != 1)
+                alert(d.Msg);
+            else
+                window.location.reload();
+
+        });
+    }
+</script>
+
+<style>
+    .btn {
+        border-width: 0px;
+    }
+</style>
+
+<!--	页尾自定义结束-->

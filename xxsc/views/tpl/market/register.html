@@ -1,0 +1,348 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        ::-webkit-input-placeholder {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            cursor: text;
+            color: gray;
+            opacity: 1;
+            padding: 0;
+            border: 0;
+        }
+        .city select{
+            width:100px;
+        }
+    </style>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+    <title>用户注册-芝麻乐购 </title> 
+    
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/68ecshop_commin.css">
+    <link type="text/css" rel="stylesheet" href="/static/tpl/market/css/passport.css">
+
+
+    <script type="text/javascript" src="/static/tpl/market/js/jquery_email.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/validate/messages_zh.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/placeholder.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jquery.json.js">
+
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/transport.js"></script>
+
+    <script type="text/javascript" src="/static/tpl/market/js/common.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/register.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/utils.js"></script>
+
+    <script src="/static/js/city.js"></script>
+
+    <style type="css/text">
+        label .error {
+            color: #900;
+        }
+    </style>
+</head>
+<body style="cursor: auto;">
+    <script>
+        function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sType == 'show') { oDiv.style.display = 'block'; } if (sType == 'hide') { oDiv.style.display = 'none'; } }
+    </script>
+    <div class="Logo-r">
+        <div class="Logo-info-r">
+            <a href= '{{urlfor "MkController.Index"}}'  class="logo"></a>
+            <span class="findpw">欢迎注册</span>
+            <span href="javascript:void(0)" class="weixin"
+                onmouseover="erweima1('erweima', 'show');" onmouseout="erweima1('erweima', 'hide');"></span>
+            <div class="erweima" id="erweima">
+                <img alt="微信" src="/static/tpl/market/images/login/weixin3.png" width="167" height="202">
+            </div>
+        </div>
+    </div>
+    <div class="blank"></div>
+    <div class="blank"></div>
+    <div class="w">
+
+        <div class="w" id="regist">
+            <div class="mcon register_con" style="height: 454px;">
+                <div id="reg-pic" class="box-pic box-pic1"></div>
+                <div id="login-box" class="uc_box uc_box_reg"> 
+                       
+                        <ul class="register_tab">
+                            <li id="li_register_type_mobile" class="tab_item fl cur"
+                                register_type="mobile">手机注册<span class="bg_ff"></span></li>
+                            <li class="have_account fr">已有账号！<a href='{{urlfor "MkController.Login"}}'>登录</a></li>
+                        </ul>
+                    
+                    <form action="#" method="post" id="formUser" name="formUser">
+                        <div class="form">
+                            <input type="hidden" name="register_type" value="mobile">
+                            <div class="item">
+                                <input name="mobile_phone" type="text" id="mobile_phone" placeholder="手机" onblur="checkMobilePhone(this)" class="text">
+                                <i class="i-phone"></i>
+                                <div>
+                                    <span class="label" id="mobile_phone_notice"></span>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <input name="RealName" type="text" id="RealName" placeholder="真实姓名" onblur="checkRealName(this)" class="text">
+                                <i class="i-phone"></i>
+                                <div>
+                                    <span class="label" id="RealName_notice"></span>
+                                </div>
+                            </div>
+                            <div id="o-password">
+                                <div class="item">
+                                    <input name="password" type="password" id="password" placeholder="密码" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" class="text">
+                                    <i class="i-pass"></i>
+                                    <div id="pwd_notice" style="display: none;">
+                                        <span class="label" id="password_notice"></span>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <input type="password" id="conform_password" name="confirm_password" class="text" placeholder="确认密码" onblur="check_conform_password(this.value);" autocomplete="off">
+                                    <i class="i-pass"></i>
+                                    <div>
+                                        <span class="label" id="conform_password_notice"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+								<input name="email" type="text" id="email" placeholder="邮箱" onblur="checkEmail(this)" class="text email">
+								<i class="i-email"></i>
+								<div>
+									<span class="label" id="email_notice" style="color: rgb(153, 0, 0);"> </span>
+								</div>
+							</div>
+                              <div id="o-city">
+                                <div class="item city"> 
+
+                                  <select name="ProvinceId" id="ProvinceId" onchange="getCity(this)">
+
+
+                              <option value="0">省份</option>
+                                      {{range .ps}}
+                                        <option value="{{.Id}}">{{.Name}}</option>
+                                      {{end}}
+
+                                    </select>
+                                    <select name="CityId" id="CityId" onchange="getDistrict(this)">
+                        <option value="0">地市</option>
+                                              </select>
+
+                                    <select name="DistrictId" id="DistrictId"  >
+                        <option value="0">县区</option>
+                                              </select>
+
+                                    
+                                    <div  >
+                                        <span class="label" id="city_notice"></span>
+                                         
+                                    </div>
+                                </div> 
+                            </div>
+
+
+                              <div id="o-introducer">
+                                <div class="item">
+                                    <input name="introducer" type="text" id="introducer" placeholder="推荐人" 
+                                        class="text">
+                                    <i class="i-phone"></i>
+                                    <div id="intr_notice" style="display: none;">
+                                        <span class="label" id="introducer_notice"></span>
+                                    </div>
+                                </div> 
+                            </div>
+
+                            <div class="item_t" style="margin-bottom: 30px;">
+                                <input id="mobile_code" class="text text_te" type="text" 
+                                    placeholder="验证码" 
+                                    name="mobile_code">
+                                <i class="i-phone"></i>
+                                <input id="zphone" onclick="getPhoneRand()" class="zphone" type="button" value="获取手机验证码 ">
+                                 
+                            </div>
+
+
+                            <div class="   item_t">
+                                <div class="safety">
+                                    <input name="agreement" type="checkbox" value="1" checked="checked" class="checkbox">
+                                    <label for="remember" class="mar-b">我已看过并接受《<a href="#" style="color: blue" target="_blank">用户协议</a>》</label>
+                                </div>
+                            </div>
+                            <div class="item">
+                                
+                                <input   id="btn_submit" onclick="register1()" name="Submit" class="btn-img btn-regist" value="立即注册">
+                            </div>
+                        </div>
+                    </form>
+                    <!--[if !ie]>form end<![endif]-->
+
+                </div>
+            </div>
+        </div>
+
+        <div class="blank"></div>
+    </div>
+
+    {{template "tpl/market/share/_bottom_box.html" .}}	
+
+ 
+ <script type="text/javascript">
+
+
+
+     function  checkRealName(e) {
+         var v =$(e).val();
+         if (v == '') {
+             document.getElementById('RealName_notice').innerHTML = "真实姓名不可为空";
+             document.getElementById('RealName_notice').style.color = '#900';
+         } else {
+             document.getElementById('RealName_notice').innerHTML = "";
+             document.getElementById('RealName_notice').style.color ="#ffffff";
+         }
+     }
+
+
+
+
+
+     function register1() {
+         var name = $("#mobile_phone").val();
+         var password = $("#password").val();
+         var introducer = $("#introducer").val();
+         var realname = $("#RealName").val();
+         var email = $("#email").val();
+         var province = $("#ProvinceId").val();
+         var city = $("#CityId").val();
+         var district = $("#DistrictId").val();
+         if (province == 0 || city == 0 || district == 0) {
+             $("#city_notice").val("请选择你所居住的省市区");
+             return false;
+         } else {
+             $("#city_notice").val("");
+         }
+
+         $.post('{{urlfor "LoginController.Register"}}', {
+             UserName: name,
+             ProvinceId: province,
+             CityId: city,
+             DistrictId: district,
+             Email:email,
+             PassWord: password,
+             Introducer: introducer,
+             RealName:realname
+
+
+         }, function (d) {
+
+             if (d.Result == 0)
+                 alert(d.Msg);
+             if (d.Result == 1)
+         window.location.href = '{{urlfor "UserCenterController.Index"}}';
+
+         });
+
+         return false;
+
+     }
+
+
+     function getPhoneRand() {
+         var phone = $("#mobile_phone").val();
+
+         $.post('{{urlfor "LoginController.PhoneRand"}}', { m: phone }, function (d) {
+
+             if (d.Result == 1) {
+                 $("#mobile_code").val(d.Data);
+             }
+         });
+         return false;
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     var process_request = "正在处理您的请求...";
+     var username_chana = "- 用户名不能有中文。";
+     var msg_uname_length = "- 用户名不能超过 20 个字符。";
+     var username_empty = "- 用户名不能为空。";
+     var username_shorter = "- 用户名长度不能少于 3 个字符。";
+     var username_invalid = "- 用户名只能是由字母数字以及下划线组成。";
+     var password_empty = "- 登录密码不能为空。";
+     var password_shorter = "- 登录密码不能少于 6 个字符。";
+     var confirm_password_invalid = "- 两次输入密码不一致";
+     var email_empty = "- Email 为空";
+     var email_invalid = "- Email 不是合法的地址";
+     var agreement = "- 您没有接受协议";
+     var msn_invalid = "- msn地址不是一个有效的邮件地址";
+     var qq_invalid = "- QQ号码不是一个有效的号码";
+     var home_phone_invalid = "- 家庭电话不是一个有效号码";
+     var office_phone_invalid = "- 办公电话不是一个有效号码";
+     var mobile_phone_invalid = "- 手机号码不是一个有效号码";
+     var msg_un_blank = "- 用户名不能为空";
+     var msg_un_chine = "- 用户名不能为中文";
+     var msg_un_length = "- 用户名不得超过14个字符";
+     var msg_un_format = "- 用户名含有非法字符";
+     var msg_un_registered = "- 用户名已经存在,请重新输入";
+     var msg_can_rg = "* 可以注册";
+     var msg_email_blank = "- 邮件地址不能为空";
+     var msg_email_registered = "- 邮箱已存在";
+     var msg_email_format = "- 邮件地址不合法";
+     var msg_mobile_phone_blank = "- 手机号码不能为空";
+     var msg_mobile_phone_registered = "- 手机号码已存在";
+     var msg_mobile_phone_format = "- 手机号码不是一个有效号码";
+     var msg_blank = "- 不能为空";
+     var no_select_question = "- 您没有完成密码提示问题的操作";
+     var passwd_balnk = "* 密码中不能包含空格";
+     var msg_email_code_blank = "- 邮箱验证码不能为空";
+     var msg_mobile_phone_code_blank = "- 手机验证码不能为空";
+     var msg_captcha_blank = "- 验证码不能为空";
+     var msg_register_type_blank = "- 注册类型不能为空";
+     var username_exist = "用户名 %s 已经存在";
+
+     $().ready(function () {
+         //设置高度
+         $(".mcon").height($(".uc_box").height());
+
+         $("#formUser").submit(function () {
+             return register('mobile');
+         });
+
+         $("#zemail").click(function () {
+             sendEmailCode($("#email"), $("#email_code"), $(this));
+         });
+
+         $("#zphone").click(function () {
+             sendMobileCode($("#mobile_phone"), $("#mobile_code"), $(this));
+         });
+
+
+         $(".register_tab").find(".cur").removeClass("cur");
+         $("#li_register_type_mobile").addClass("cur");
+         $(".tab_item").click(function () {
+             var register_type = $(this).attr("register_type");
+             $("#register_type").val(register_type);
+             $("#formRegister").submit();
+         });
+     });
+ </script>
+
+
+</body>
+</html>

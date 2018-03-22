@@ -1,0 +1,19 @@
+{
+    "Js": {
+        "SrcPath": "static/addons/easyValidate",
+        "DistPath": "static/js",
+        "SrcURL": "static/addons/easyValidate",
+        "DistURL": "static/js",
+        "Groups": {
+            "ev": {
+                "DistFile": "ev.min.js",
+                "SourceFiles": [
+                    "validatePromapt.js",
+                    "validateRegExp.js",
+                    "validateRules.js",
+                    "easyValidate.js"
+                ]
+            }
+        }
+    }
+}

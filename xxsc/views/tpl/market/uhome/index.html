@@ -1,0 +1,107 @@
+﻿
+<link href="/static/tpl/market/css/style.css" rel="stylesheet" />
+
+<div class="blank"></div>
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a>
+        <code>&gt;</code> 用户中心
+    </div>
+</div>
+<div class="blank"></div>
+
+<div class="block clearfix">
+
+       {{template "tpl/market/share/_u_menu.html" .}}	
+
+    <div class="AreaR">
+        <div class="clearfix usBox_y">
+
+            <div class="account">
+                <div class="money">
+                    <ul class="clearfix">
+                        <li class="first">
+                            <div class="title"><span>账号余额</span></div>
+                            <div class="pic"><a href="#"><i class="user_bg"></i></a></div>
+                            <p><a href="#" class="_capitalAccount">￥{{.user.Money|fp}}</a></p>
+                        </li>
+                        <li class="second">
+                            <div class="title"><span>红包</span></div>
+                            <div class="pic"><a href="#"><i class="user_bg"></i></a></div>
+                            <p><a href="#" class="_backAccount">{{.user.RedBox}} </a>个</p>
+                        </li>
+                        <li class="third">
+                            <div class="title"><span>芝麻币</span></div>
+                            <div class="pic"><i class="user_bg"></i></div>
+                            <p><span class="_goldAccount">{{.user.JiFen}}</span></p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="security">
+                    <div class="improve">
+                        <p>账户安全</p>
+                        <strong class="low">一般                                                                 
+
+                        </strong>
+                        <i class="user_bg low"><em></em></i><a href="#" title="提升账户安全等级">提升 &gt;</a>
+                    </div>
+                    <div class="yzHome clearfix">
+                        <div class="phone yzType">
+                            <i class="user_bg titIcon"></i>
+                            <span class="yzTit">手机：</span>
+                            已验证
+                        </div>
+                        <div class="mail yzType">
+                            <i class="user_bg titIcon"></i>
+                            <span class="yzTit">邮箱：</span>
+                            <a class="res" href="#">未绑定
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="middle order">
+                    <div class="line1 clearfix">
+                        <div class="title"><i></i><span>交易提醒</span></div>
+                        <div class="status">
+                            <ul>
+                                <li><a href="#" title="未确认订单">未确认<span id="uc_dfkdd">0</span></a><i></i></li>
+                                <li><a href="#" title="待付款订单">待付款<span id="uc_dshdd">0</span></a><i></i></li>  
+                            </ul>
+                        </div>
+                        <a class="more" href="#" title="查看全部订单">查看全部订单 &gt;</a>
+                    </div>
+
+                    <div class="emptyFrame clearfix"><i class="user_bg"></i><span>您好久没在商城购物了，这里空空的，赶快去购物吧！</span> </div>
+
+
+
+
+                </div>
+               
+             
+               
+                <script>
+                    /*第一种形式 第二种形式 更换显示样式*/
+                    function setTabCatGoods(name, cursel, n) {
+                        for (i = 1; i <= n; i++) {
+                            var menu = document.getElementById(name + i);
+                            var con = document.getElementById("con_" + name + "_" + i);
+                            con.style.display = i == cursel ? "block" : "none";
+                            menu.className = i == cursel ? "line1" : "line2";
+                        }
+                    }
+                </script>
+               
+            </div>
+            <div class="box">
+                <div class="box_1">
+                    <div class="userCenterBox boxCenterList clearfix">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 10px; line-height: 10px; clear: both;"></div>
+    <div class="blank"></div>
+</div>

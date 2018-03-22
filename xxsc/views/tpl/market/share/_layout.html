@@ -1,0 +1,59 @@
+<!DOCTYPE  html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>{{.Title}}</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
+    <meta name="keywords" content="{{.KeyWords}}" />
+    <meta name="description" content="{{.Description}}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/static/addons/ace/assets/js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/static/tpl/market/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/68ecshop_commin.css" />
+
+
+
+    <script type="text/javascript" src="/static/tpl/market/js/jquery-lazyload.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jqueryAll.index.min.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jump.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".brand-wall-content img").each(function (k, img) {
+                new JumpObj(img, 10);
+            });
+        });
+        var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+        var btn_buy = "购买";
+        var is_cancel = "取消";
+        var select_spe = "请选择商品属性";
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/jquery.json.js">
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/transport.js"></script> 
+    <script type="text/javascript" src="/static/tpl/market/js/utils.js"></script>
+
+    <script type="text/javascript" src="/static/tpl/market/js/common.js"></script>
+  <script type="text/javascript" src="/static/tpl/market/js/common.min.js"></script>
+   <script type="text/javascript" src="/static/tpl/market/js/index.js"></script> 
+    
+</head>
+
+
+
+<body style="cursor: auto;">
+    {{template "tpl/market/share/_top_box.html" .}}		
+  {{template "tpl/market/share/_top_header.html" .}}	
+         {{template "tpl/market/share/_top_nav.html" .}}	
+
+
+{{.LayoutContent}} 
+
+ 
+  {{template "tpl//market/share/_bottom_box.html" .}}	
+
+ 
+
+ 
+	  
+</body>
+</html>

@@ -1,0 +1,186 @@
+<div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">用户中心</a>
+            </li>
+            <li>基础内容</li>
+            <li class="active">信息公告</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                信息公告管理
+                <small>
+
+                </small>
+            </h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <a class="btn btn-primary" data-toggle="modal"  href='{{urlfor "NewsController.Add"}}' target="_blank" >
+                        <i class="icon-plus align-top bigger-125"></i>
+                        新增
+                    </a>
+                    
+                </p>
+                <!-- PAGE CONTENT BEGINS -->
+
+                <div class="table-responsive">
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover ">
+                        <thead>
+                            <tr>
+
+                                <th>标题</th>
+                                
+                                     <th>
+                                   排序
+                                </th>
+                                <th class="hidden-480">是否启用</th>
+
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+{{range .ms}}
+                            <tr class="j_menu" tag="{{.Id}}">
+                                
+
+                                <td>
+                                   {{.Title}}
+                                </td> 
+                                
+                                <td>{{.Sort}}</td>
+
+                                <td class="hidden-480">
+                                    <label>
+                                        <input name="switch-field-1" onclick="changeMenu(this,{{.Id}})" class="ace ace-switch ace-switch-7" type="checkbox" {{if eq .Status  1}} checked {{end}} >
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+
+                                <td>
+
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+
+
+                                        <a class=" btn  btn-primary  green" href="{{urlfor "NewsController.Add" "id" .Id}}" target="_blank"    title="编辑">
+                                            <i class="icon-pencil bigger-130"></i>
+                                        </a>
+
+                                        <button class=" btn btn-danger  red" onclick="delMenu({{.Id}})"  title="删除">
+                                            <i class="icon-trash bigger-130"></i>
+                                        </button>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- form开始  -->
+                <!-- Modal -->
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+ 
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+ 
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        SetSidebar("商城管理");
+        SetSidebar("信息公告"); 
+    });
+
+
+
+    function addMenu() {
+        $("#Id").val(0);
+        $("#Sort").val(5);
+        $("#Name").val(null);
+        $("#WxKey").val(null);
+         $("#Type").val(null);
+        $("#Type").val('click');
+        $("#ParentId").val('0');
+        $('#myModal').find('.modal-title').text('新增自定义菜单')
+        $('#myModal').modal('show');
+    }
+
+    
+
+    function wxEdit() {
+
+        var data = $("#form_menu_edit").serialize();
+        $.post('{{urlfor "WxMenuController.Edit"}}', data, function (d) {
+
+            alert(d.Msg);
+
+        });
+    }
+</script>
+
+<style>
+    .btn {
+        border-width: 0px;
+    }
+</style>
+
+<!--	页尾自定义结束-->

@@ -1,0 +1,57 @@
+﻿ <div id="header">
+    <div class="headerLayout">
+        <div class="headerCon ">
+            <h1 id="mallLogo" class="mall-logo">
+                <a href= '{{urlfor "MkController.Index"}}' class="header-logo" title="logo">
+                    <img src="/static/img/logo.png"></a>
+            </h1>
+            <div class="header-extra">
+                <div class="header-banner">
+                    <a href="#1" title="七天包退"></a>
+                    <a href="#2" title="正品保障"></a>
+                    <a href="#3" title="闪电发货"></a>
+                </div>
+             
+                <div id="mallSearch" class="mall-search" style="position: relative; z-index: 999999999; overflow: visible;">
+                    <div id="search_tips" style="display: none;"></div>
+                    <ul class="search-type clearfix">
+                        <li class="cur" num="0">宝贝</li>
+                        <li num="1">店铺</li>
+                    </ul>
+                    <form class="mallSearch-form" method="get" name="searchForm" id="searchForm" action="search.php" onsubmit="return checkSearchForm()">
+                        <input type="hidden" name="type" id="searchtype" value="0">
+                        <fieldset>
+                            <legend>搜索</legend>
+                            <div class="mallSearch-input clearfix">
+                                <div id="s-combobox-135" class="s-combobox">
+                                    <div class="s-combobox-input-wrap">
+                                        <input aria-haspopup="true" role="combobox" class="s-combobox-input" name="keywords" id="keyword" tabindex="9" accesskey="s" onkeyup="STip(this.value, event);" autocomplete="off" value="请输入关键词" onfocus="if(this.value=='请输入关键词'){this.value='';}else{this.value=this.value;}" onblur="if(this.value=='')this.value='请输入关键词'" type="text">
+                                    </div>
+                                </div>
+                                <input type="submit" value="搜索" class="button">
+                            </div>
+                        </fieldset>
+                    </form>
+                    <ul class="hot-query">
+                        <li style="border-left: none;">
+                            <a href="search.php?keywords=%E7%AB%8B%E7%99%BD%E6%B4%97%E8%A1%A3%E6%B6%B2" title="立白洗衣液">立白洗衣液</a>
+                        </li>
+                        <li>
+                            <a href="search.php?keywords=%E8%92%99%E7%89%9B" title="蒙牛">蒙牛</a>
+                        </li>
+                        <li>
+                            <a href="search.php?keywords=%E8%8F%9C%E7%B1%BD%E6%B2%B9" title="菜籽油">菜籽油</a>
+                        </li>
+                        <li>
+                            <a href="search.php?keywords=%E6%8A%BD%E7%BA%B8" title="抽纸">抽纸</a>
+                        </li>
+                        <li>
+                            <a href="search.php?keywords=%E5%87%80%E8%8F%9C" title="净菜">净菜</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,577 @@
+﻿<link rel="stylesheet" type="text/css" href="/static/tpl/market/css/pshow.css" />
+<link rel="stylesheet" type="text/css" href="/static/tpl/market/css/goods.css">
+<link rel="stylesheet" type="text/css" href="/static/tpl/market/css/increase-68.css">
+<script src="/static/tpl/market/js/magiczoom.js"></script>
+<script src="/static/tpl/market/js/magiczoom_plus.js"></script>
+ 
+
+                        <style type="text/css">
+                            li.padd1 {
+                                width: 45%;
+                                float: left;
+                            }
+
+                            #product-intro li.padd1 .dt {
+                                width: 27%;
+                            }
+
+                            #product-intro li.padd1 .dd {
+                                width: 73%;
+                            }
+                        </style>
+
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a> <code>&gt;</code>
+        <a href="#">{{.hp.FirstCategory.Name}}</a> <code>&gt;</code>
+        <a href="#">{{.hp.TwoCategory.Name}}</a> <code>&gt;</code>
+        <a href="#">{{.hp.ThreeCategory.Name}}</a> <code>&gt;</code> {{.hp.Product.Name}}
+
+    </div>
+</div>
+<div class="blank"></div>
+<div class="w">
+    <div id="product-intro" class="goods_photo">
+
+        
+        <form action="javascript:addToCart({{.hp.Product.Id}})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY">
+            <div class="clearfix" style="width: 591px; min-height: 510px;">
+                <div class="goods_info">
+                    <div id="name">
+                        <h1>{{.hp.Product.Name}}</h1>
+                    </div>
+                    <div id="summary-price" class="clearfix">
+                        <div class="mar_l">
+                            <p>
+
+                                <span class="price">售价</span>
+                                <strong class="p-price" id="ECS_GOODS_AMOUNT">￥{{.hp.Product.Price|fp}}
+                                    {{if ne .hp.Product.Zhim 0}} +{{.hp.Product.Zhim}} {{end}}
+                                </strong>
+
+                              
+                            </p>
+                        </div>
+                        <div class="show_price" style="z-index: 101">
+                            <div class="market_prices_t"><span class="price">
+                                市场价</span>
+                                <font class="market_price">￥{{.hp.Product.OriPrice|fp}}</font> </div>
+
+
+                            
+
+                        </div>
+                    </div>
+                    <!--<ul id="summary1">
+
+                        <li class="padd1">
+                            <div class="dt">商品品牌</div>
+                            <div class="dd"><a href="brand.php?id=173">海天</a></div>
+                        </li>
+
+                        <li class="padd1">
+                            <div class="dt">可使积分</div>
+                            <div class="dd">0 积分</div>
+                        </li>
+
+                        <li class="padd1">
+                            <div class="dt">商品重量</div>
+                            <div class="dd">450克 </div>
+
+                        </li>
+
+                    </ul>-->
+                    <div id="summary-qita" class="clearfix">
+                        <ul class="qita">
+                            <li>
+                                <p>累积评价<span><a href="/goods.php?id=913#os_pinglun">0人评价</a></span></p>
+                            </li>
+                            <li>
+                                <p>累计销量<span>0</span></p>
+                            </li>
+                            <li style="border: none">
+                                <p>赠送红包<span><font id="ECS_GOODS_AMOUNT_jf">{{.hp.Product|fr}}</font></span></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul id="summary" style="display: none;">
+                      
+
+
+                    </ul>
+                    <ul id="choose" class="choose_bor"> 
+
+
+                        <li id="choose-amount">
+                            <div class="dt">数量：</div>
+                            <div class="dd">
+                                <div class="wrap-input">
+                                    <script language="javascript" type="text/javascript">  function goods_cut() { var num_val = document.getElementById('number'); var new_num = num_val.value; var Num = parseInt(new_num); if (Num > 1) Num = Num - 1; num_val.value = Num; } function goods_add() { var num_val = document.getElementById('number'); var new_num = num_val.value; var Num = parseInt(new_num); Num = Num + 1; num_val.value = Num; } </script>
+                                    <a class="btn-reduce" href="javascript:;" onclick="goods_cut();changePrice();">减少数量</a>
+                                    <input name="number" type="text" class="text" id="number" value="1" onblur="changePrice();">
+                                    <a class="btn-add" href="javascript:;" onclick="goods_add();changePrice();">增加数量</a>
+                                    （库存<font id="shows_number">{{.hp.Product.Quantity}}</font>）
+                                </div>
+                            </div>
+                        </li>
+
+                    
+                          {{if .hp.ProductTypes1}}
+                      <li id="choose-version">
+                <div class="dt">规格1：</div>
+                <div class="dd catt">   
+                  <ul class="ys_xuan" id="xuan_2">
+                    <div class="catt" id="catt_2"> 
+                       {{range .hp.ProductTypes1}}
+                      <a  onclick ="show_attr_status(this,{{.ProductId}}, {{.Id}});"
+                           href="javascript:" name="{{.ProductId}}" id="xuan_a_{{.Id}}" title="{{.Name}}" 
+                          mainImg="/{{.MainImg}}"  minImg="/{{.MinImg}}"
+                          >          
+                        
+                            <div style="padding:3px 7px;">{{.Name}}</div>
+                           <input style="display:none" id="spec_value_{{.Id}}" type="radio" name="spec_{{.Id}}" value="{{.Id}}">
+                      </a> 
+                       {{end}}
+                    </div>
+                  </ul>
+                  <div class="clear"></div> 
+                   
+                </div>
+              </li>
+
+  {{end}}
+
+
+                        {{if .hp.ProductTypes}}
+                      <li id="choose-version">
+                <div class="dt">规格2：</div>
+                <div class="dd catt">   
+                  <ul class="ys_xuan" id="xuan_1">
+                    <div class="catt" id="catt_1"> 
+                       {{range .hp.ProductTypes}}
+                      <a onclick="show_attr_status(this,{{.ProductId}}, {{.Id}});"
+                           href="javascript:" name="{{.ProductId}}" id="xuan_a_{{.Id}}" title="{{.Name}}" 
+                          mainImg="/{{.MainImg}}"  minImg="/{{.MinImg}}"
+                          >          
+                        
+                            <div style="padding:3px 7px;">{{.Name}}</div>
+                           <input style="display:none" id="spec_value_{{.Id}}" type="radio" name="spec_{{.Id}}" value="{{.Id}}">
+                      </a> 
+                       {{end}}
+                    </div>
+                  </ul>
+                  <div class="clear"></div> 
+                   
+                </div>
+              </li>
+                        {{end}}
+
+                    </ul>
+                    <div class="buyNub-buy-wrap">
+
+                        <div id="choose-btns1" class="buyNub-buy" style="display: none;">
+
+                            <a onclick="tell_me({{.hp.Product.Id}})" class="tell_me"><i></i>到货通知</a>
+
+                            <a href="javascript:collect({{.hp.Product.Id}})" class="btn-coll ">收藏</a>
+                        </div>
+
+                        <div id="choose-btns" class="buyNub-buy" style="display: block;">
+                            {{if ne 2 .hp.Product.Flg}}
+                         <a href="#" name="bi_addToCart"
+                                 class="u-buy1">商品上架中.....</a>
+                            {{else}}
+                            
+                             <a href="javascript:addToCart({{.hp.Product.Id}})"
+                                      name="bi_addToCart" class="u-buy2">加入购物车</a>
+                            {{end}}
+
+                            <a href="javascript:collect({{.hp.Product.Id}})" class="btn-coll ">收藏</a>
+                            
+                        <!--     <a id="phone" class="btn-phone" style="position: relative; cursor: pointer">去手机购买
+                <div id="phone_tan" style="display: none">
+                    <span class="arr"></span>
+                    <div class="m-qrcode-wrap">
+                        <img src="erweima_png.php?id=913" width="100" height="100">
+                    </div>
+                </div>
+                            </a>-->
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <span class="clr"></span>
+            </div>
+        </form>
+        <div id="preview">
+            <div class="goods_img" id="li_913">
+                <a href="/{{.hp.Product.MainImg}}" class="MagicZoom" id="zoom" 
+                    rel="zoom-position: right;" title="" 
+                    style="position: relative; display: inline-block; text-decoration: none; outline: 0px; width: 378px;">
+                <img src="/{{.hp.Product.MinImg}}" 
+                    class="goodsimg pic_img_913" id="goods_bimg" width="378" 
+                    height="378" style="border: 1px solid rgb(221, 221, 221); width: 378px; height: 378px; opacity: 1;">
+                <div class="MagicZoomBigImageCont" 
+                    style="overflow: hidden; z-index: 100; top: -100000px; position: absolute;
+ width: 300px; height: 300px; opacity: 1; left: 393px;">
+                    <div class="MagicZoomHeader" 
+                        style="position: relative; z-index: 10; left: 0px;
+ top: 0px; padding: 3px; display: none; visibility: hidden;"></div>
+                    <div style="overflow: hidden;">
+                        <img src="/{{.hp.Product.MinImg}}"  id="zoom_img_mst"
+                            style="padding: 0px; margin: 0px; border: 0px; position: relative; left: -130px; top: -11px;">
+
+                    </div>
+                </div>
+                <div class="MagicZoomLoading" style="opacity: 0.75; display: none; overflow: hidden; position: absolute; visibility: hidden; z-index: 20; max-width: 374px; left: 132px; top: 175px;">
+                    Loading zoom..
+
+                </div>
+                <div class="MagicZoomPup" style="z-index: 10; position: absolute; overflow: hidden; display: none; visibility: hidden; width: 262px; height: 262px; opacity: 0.5; left: 114px; top: 10px;"></div>
+            </a>
+
+            </div>
+            <div style="height: 10px; line-height: 10px; clear: both;"></div>
+
+
+            <div class="clearfix">
+                <span class="scrleft" onmouseover="moveLeft()" onmousedown="clickLeft()" onmouseup="moveLeft()" onmouseout="scrollStop()"></span>
+                <div class="gallery">
+                    <div id="demo" style="width: 720px;">
+                        <div id="demo1" style="float: left; width: 120px;">
+                            <ul id="goods_gallery">
+
+   {{range .hp.Imgs}}
+                                <li>
+                                    <a href="/{{.MaxImg}}" rel="zoom-id: zoom;" rev="/{{.MidImg}}" title="" style="outline: 0px;">
+                                        <img src="/{{.MidImg}}" alt="{{$.hp.Product.Name}}" class="B_blue">
+                                    </a>
+                                </li> 
+
+{{end}}
+
+                            </ul>
+                        </div>
+                        <div id="demo2" style="display: inline; overflow: visible; width: 120px;"></div>
+                    </div>
+                </div>
+                <span class="scrright" onmouseover="moveRight()"
+                     onmousedown="clickRight()" onmouseup="moveRight()" onmouseout="scrollStop()"></span>
+                <script>
+                    function $gg(id) {
+                        return (document.getElementById) ? document.getElementById(id) : document.all[id]
+                    }
+
+                    var boxwidth = 60;//跟图片的实际尺寸相符
+
+                    var box = $gg("demo");
+                    var obox = $gg("demo1");
+                    var dulbox = $gg("demo2");
+                    obox.style.width = obox.getElementsByTagName("li").length * boxwidth + 'px';
+                    dulbox.style.width = obox.getElementsByTagName("li").length * boxwidth + 'px';
+                    box.style.width = obox.getElementsByTagName("li").length * boxwidth * 6 + 'px';
+                    var canroll = false;
+                    if (obox.getElementsByTagName("li").length >= 6) {
+                        canroll = true;
+                        dulbox.innerHTML = obox.innerHTML;
+                    }
+                    var step = 5; temp = 1; speed = 50;
+                    var awidth = obox.offsetWidth;
+                    var mData = 0;
+                    var isStop = 1;
+                    var dir = 1;
+
+                    function s() {
+                        if (!canroll) return;
+                        if (dir) {
+                            if ((awidth + mData) >= 0) {
+                                mData = mData - step;
+                            }
+                            else {
+                                mData = -step;
+                            }
+                        } else {
+                            if (mData >= 0) {
+                                mData = -awidth;
+                            }
+                            else {
+                                mData += step;
+                            }
+                        }
+
+                        obox.style.marginLeft = mData + "px";
+
+                        if (isStop) return;
+
+                        setTimeout(s, speed)
+                    }
+
+
+                    function moveLeft() {
+                        var wasStop = isStop;
+                        dir = 1;
+                        speed = 50;
+                        isStop = 0;
+                        if (wasStop) {
+                            setTimeout(s, speed);
+                        }
+                    }
+
+                    function moveRight() {
+                        var wasStop = isStop;
+                        dir = 0;
+                        speed = 50;
+                        isStop = 0;
+                        if (wasStop) {
+                            setTimeout(s, speed);
+                        }
+                    }
+
+                    function scrollStop() {
+                        isStop = 1;
+                    }
+
+                    function clickLeft() {
+                        var wasStop = isStop;
+                        dir = 1;
+                        speed = 25;
+                        isStop = 0;
+                        if (wasStop) {
+                            setTimeout(s, speed);
+                        }
+                    }
+
+                    function clickRight() {
+                        var wasStop = isStop;
+                        dir = 0;
+                        speed = 25;
+                        isStop = 0;
+                        if (wasStop) {
+                            setTimeout(s, speed);
+                        }
+                    }
+                </script>
+            </div>
+
+
+            
+        </div>
+        <div id="supp_info">
+
+
+            <div id="brand-bar-pop">
+                <input type="hidden" id="chat_supp_id" value="17">
+                <dl id="ghs_shop" style="border-bottom: 1px solid #ddd; padding-bottom: 5px; text-align: center; padding-top: 13px; padding-bottom: 12px; *padding-top: 12px; *padding-bottom: 9px;">
+                    <dt class="shop_title">卖家：<a href="supplier.php?suppId=17" target="_blank" style="color: #333333">
+                         {{.shop.Name}}</a></dt>
+                    <dd></dd>
+                    <div class="ghs_clear"></div>
+                </dl>
+
+                <dl id="hotline">
+                    <dt>好评率&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                    <dd><span class="hot_grey"><span class="hot_red" style="width: 100%;"></span></span></dd>
+                    <dd class="ghs_clear"></dd>
+                </dl>
+                <ul class="score_detail">
+                    <li style="border-left: 0;">
+                        <span>描述</span>
+                        <span class="scores">5.0</span>
+                    </li>
+                    <li>
+                        <span>服务</span>
+                        <span class="scores">5.0</span>
+                    </li>
+                    <li>
+                        <span>物流</span>
+                        <span class="scores">5.0</span>
+                    </li>
+                </ul>
+                <dl id="hotline" style="padding-top: 10px;">
+                    <dt>商家名称&nbsp;&nbsp;&nbsp;&nbsp;{{.shop.Name}}</dt>
+                    <dd></dd>
+                    <div class="ghs_clear"></div>
+                </dl>
+                <dl id="hotline">
+                    <dt>商店等级：优质供货商</dt>
+                    <dd></dd>
+                    <div class="ghs_clear"></div>
+                </dl>
+
+                <dl id="hotline">
+                    <dt>客 服 QQ&nbsp;&nbsp;&nbsp;&nbsp;<em><a href="http://wpa.qq.com/msgrd?v=3&amp;uin={{.shop.QQ}}&amp;site=qq&amp;menu=yes" target="_blank" alt="点击这里联系我" title="点击这里联系我"><img src="http://wpa.qq.com/pa?p=1:250200813:4" height="16" border="0" alt="QQ"></a></em></dt>
+                    <dd></dd>
+                    <div class="ghs_clear"></div>
+                </dl>
+    
+                <dl id="hotline">
+                    <dt>客服电话&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                    <dd>{{.shop.Contact}}</dd>
+                    <dd class="ghs_clear"></dd>
+                </dl>
+                <dl id="hotline">
+                    <dt>所在地区&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                    <dd>{{.shop.Address}}</dd>
+                    <dd class="ghs_clear"></dd>
+                </dl>
+    
+                <div id="enter-shop">
+                    <div class="shop_follow_item clearfix">
+                        <a class="btn_flat1 btn_goto_shop" href="#" target="_blank">进入商店
+                        </a>
+                        <a class="btn_flat1 btn_shop_add" href="javascript:guanzhu({{.shop.Id}});">关注本店
+                        </a>
+                    </div>
+                 <!--   <div id="attention-shop">
+                        <p>扫一扫，手机访问店铺</p>
+                        <img src="erweima_supplier.php?sid=17" width="120" height="120">
+                    </div>-->
+                </div>
+                <script>
+                    function guanzhu(sid) {
+                       // Ajax.call('supplier.php', 'go=other&act=add_guanzhu&suppId=' + sid, selcartResponse, 'GET', 'JSON');
+                    }
+                    function selcartResponse(result) {
+                        alert(result.info);
+                    }
+                </script>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="blank"></div>
+    <div class="blank"></div>
+    <div class="w">
+        <div class="clearfix"></div>
+ 
+        <div class="left">
+            <div id="related-sorts" class="m m2">
+                <div class="mt">
+                    <h2>相关分类</h2>
+                </div>
+                <div class="mc">
+                    <ul class="lh">
+                        {{range .hp.SiblingCategorys}} 
+                        <li><a href="#" title="{{.Name}}">{{.Name}}</a></li>
+                        {{end}} 
+                    </ul>
+                </div>
+            </div>
+
+          
+
+
+            <div class="m m2 collect">
+                <div class="mt">
+                    <h2>最近上新</h2>
+                </div>
+                <div class="mc colList" style="max-height: 512px;">
+                    <div class="slider colFrame" id="slider">
+                        <ul style="left: 0px; height: 1500px; ">
+                            {{range .np}}
+                            <li style="border-top: none;">
+                                <div class="p-img"><a href='{{urlfor "MkController.Product" "pId" .Id}}'>
+                                    <img width="100" height="100" alt="{{.Name}}" 
+                                        src="/{{.MinImg}}"></a></div>
+                                <div class="rate"><a href='{{urlfor "MkController.Product" "pId" .Id}}' title="{{.Name}}">
+                                   {{.Name}}</a></div>
+                                <div class="p-price">
+                                    <strong>￥{{.Price|fp}} 
+                                    </strong>
+                                </div>
+                            </li> 
+                            {{end}}
+                        </ul>
+                    </div>
+                   <!-- <a id="btn-left" class="prev" title="上一个" onclick="top2()" style="cursor: pointer;"></a>
+                    <a id="btn-right" class="next" title="下一个" onclick="bottom2()" style="cursor: pointer;"></a>
+                --></div>
+                
+            </div>
+
+ 
+        </div>
+
+        <div class="right goods_right">
+            <div id="wrapper" class="m m1">
+                <div class="mt" id="main-nav-holder" style="position: static; top: 0px;">
+                    <ul class="tab" id="nav">
+                        <li class="boldtit_list h_list" onclick="change_widget(1, this);">
+                            <a href="/goods.php?id=913#os_canshu">商品介绍</a></li>
+                       
+                    </ul>
+                    
+                </div>
+                <div id="main_widget_1">
+                    <div class="mc" id="os_canshu">
+                        <ul class="detail-list">
+                            <li>商品名称：{{.hp.Product.Name}}</li>
+                            <li>商品编号：{{.hp.Product.Code}}</li>
+                             
+                            <li>上架时间：{{date .hp.Product.CreateTime "Y-h-m"}}</li>
+                           
+                            <li>库存： {{.hp.Product.Quantity}}
+                 
+                
+                 
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mc" id="os_jieshao">
+                        <div class="blank20"></div>
+                        <div class="detail-content">
+                             {{str2html .hp.Product.Info}}
+                        </div>
+                   
+                        
+                        
+                        
+                        
+                        
+                         </div>
+                    
+                    
+                </div>
+            </div>
+            <script type="text/javascript">
+                var obj11 = document.getElementById("main-nav-holder");
+                var top11 = getTop(obj11);
+                var isIE6 = /msie 6/i.test(navigator.userAgent);
+                function getTop(e) {
+                    var offset = e.offsetTop;
+                    if (e.offsetParent != null) offset += getTop(e.offsetParent);
+                    return offset;
+                }
+            </script>
+            <script type="text/javascript">
+                $(".ce_right").height($("#main_widget_1").height());
+            </script>
+        </div>
+
+    </div>
+    <div style="height: 20px; line-height: 20px; clear: both"></div>
+     
+    <script type="text/javascript">
+        function fun1() {
+            $("#right_login").children(".dropdown").show();
+            var id = 1;
+            //Ajax.call('user.php?act=login_check_yzm', 'id=' + id, collectResponses, 'GET', 'JSON');
+        }
+        function onmouseroutfun() {
+            $("#right_login").children(".dropdown").hide();
+        }
+        function collectResponses(result) {
+            document.getElementsByName('back_act').value = result.message;
+            if (result.error > 0) {
+                document.getElementById('o-authcode').style.display = 'block';
+            }
+            else {
+                document.getElementById('o-authcode').style.display = 'none';
+            }
+        }
+    </script>
+    
+   
+</div>

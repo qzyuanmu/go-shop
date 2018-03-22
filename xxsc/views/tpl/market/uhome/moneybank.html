@@ -1,0 +1,164 @@
+﻿<link href="/static/tpl/market/css/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="/static/addons/jQuery-File-Upload/css/jquery.fileupload.css">
+<script src="/static/addons/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/addons/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+<!-- <script type="text/javascript" src="js/region.js"></script>
+  <script type="text/javascript" src="js/shopping_flow.js"></script>-->
+<script src="/static/js/city.js"></script>
+<link href="/static/addons/nice-validator/jquery.validator.css" rel="stylesheet" />
+<script src="/static/addons/nice-validator/jquery.validator.js"></script>
+<script src="/static/addons/nice-validator/local/zh-CN.js"></script>
+<script>
+    $(function () {
+      
+
+    });  
+
+    function userEdit() {
+
+
+        var data = $("#formEdit").serialize();
+        $.post('{{urlfor "JsonUserController.EditUser"}}', data , function (d) {
+            if (d.Result == 1) {
+                 
+                alert("修改成功！");
+
+            } else {
+                alert(d.Msg);
+            }
+        });
+        return false;
+
+        
+    }
+
+    function getPhoneRand() {
+        var phone = '{{.user.UserName}}';
+
+        $.post('{{urlfor "LoginController.PhoneRand"}}', { m: phone }, function (d) {
+
+            if (d.Result == 1) {
+                $("#mobile_code").val(d.Data);
+            }
+        });
+        return false;
+    }
+
+
+ 
+</script>
+
+<div class="blank"></div>
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a>
+        <code>&gt;</code> 用户中心
+    </div>
+</div>
+<div class="blank"></div>
+
+<div class="block clearfix">
+    {{template "tpl/market/share/_u_menu.html" .}}	
+
+     <div class="AreaR">
+         <div class="box">
+             <div class="box_1">
+                 <div class="userCenterBox boxCenterList clearfix">
+
+                      
+                     <div class="tabmenu">
+                         <ul class="tab pngFix">
+                             <li class="active" id="tab1" onclick="setTabCatGoods('tab',1,3)">资金帐号</li>
+                            
+                         </ul>
+                     </div>
+
+                      <div class="mar_top">
+          <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
+            <tbody><tr>
+              <td align="right" bgcolor="#ffffff"><a href='{{urlfor "UserCenterController.Bank"}}' class="f6">资金帐号</a> | 
+                  <a href='{{urlfor "UserCenterController.Money"}}' class="f6">提现</a> |
+                   <a href='{{urlfor "UserCenterController.MoneyLog"}}' class="f6">查看帐户明细</a> 
+                  | <a href='{{urlfor "UserCenterController.ApplyLog"}}' class="f6">查看申请记录</a></td>
+            </tr>
+          </tbody></table>
+          </div>
+
+                     <div class="ncm-user-profile">
+                         <div class="ncm-default-form" id="con_tab_1" style="display: block;">
+                             <form name="formEdit" action='#' method="post"  id="formEdit"
+                                 >
+                                 <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#E6E6E6">
+                                     <tbody>
+                                        
+
+                                       <!--  <tr>
+                                             <td width="28%" align="right" bgcolor="#FFFFFF">开户行：</td>
+                                             <td width="72%" align="left" bgcolor="#FFFFFF">
+                                            <select id="Bank" name="Bank" > 
+                                                <option value="农业银行">农业银行</option>
+                                                  <option value="建设银行">建设银行</option>
+                                                  <option value="中国银行">中国银行</option>
+                                                  <option value="工商银行">工商银行</option>
+                                                  <option value="招商银行">招商银行</option>
+                                                 <option value="农商银行">农商银行</option>
+                                            </select>
+
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td align="right" bgcolor="#FFFFFF">银行帐号：</td>
+                                             <td align="left" bgcolor="#FFFFFF">
+                                                 <input type="text" id="Account"    name="Account" 
+                                                      class="inputBg"
+                                                   ></td>
+                                         </tr>-->
+
+                                         <tr>
+                                             <td align="right" bgcolor="#FFFFFF">支付宝帐号：</td>
+                                             <td align="left" bgcolor="#FFFFFF">
+                                                 <input type="text" name="ZhiFuBao"  
+                                                     id="ZhiFuBao"
+                                                      class="inputBg" value="{{.user.ZhiFuBao}}"
+                                                      /></td>
+                                         </tr>
+                                          <tr>
+                                             <td align="right" bgcolor="#FFFFFF">手机验证码：</td>
+                                             <td align="left" bgcolor="#FFFFFF">
+                                                 <input type="text" name="mobile_code"
+                                                     id="mobile_code"   
+                                                     class="inputBg"
+                                                      >
+
+                                                  <input    onclick="getPhoneRand()"
+                                                          class="bnt_blue_1" value="获取验证码">
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td colspan="2" align="center" bgcolor="#FFFFFF">
+                                                 <label class="submit-border">
+                                                     
+                                                     <input name="submit"  
+                                                          onclick="userEdit()"
+                                                          class="bnt_blue_1" value="确认修改">
+                                                 </label>
+                                             </td>
+                                         </tr>
+
+                                     </tbody>
+                                 </table>
+                             </form>
+                         </div>
+                      
+                     </div>
+
+                 </div>
+             </div>
+
+         </div>
+     </div>
+
+    <div style="height: 10px; line-height: 10px; clear: both;"></div>
+    <div class="blank"></div>
+</div>

@@ -1,0 +1,158 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        ::-webkit-input-placeholder {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            cursor: text;
+            color: gray;
+            opacity: 1;
+            padding: 0;
+            border: 0;
+        }
+    </style>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+    <title>用户登录-芝麻乐购  </title>
+
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/68ecshop_commin.css">
+    <link type="text/css" rel="stylesheet" href="/static/tpl/market/css/passport.css"> 
+    <script type="text/javascript" src="/static/tpl/market/js/jquery-1.9.1.min.js"></script> 
+    <script type="text/javascript" src="/static/tpl/market/js/utils.js"></script>
+</head>
+<body style="cursor: auto;">
+    <script>
+        function erweima1(obj, sType) { var oDiv = document.getElementById(obj); if (sType == 'show') { oDiv.style.display = 'block'; } if (sType == 'hide') { oDiv.style.display = 'none'; } }
+    </script>
+    <div class="Logo-r">
+        <div class="Logo-info-r">
+            <a href='{{urlfor "MkController.Index"}}'  class="logo"></a>
+            <span class="findpw">欢迎登录</span>
+             
+            <span href="javascript:void(0)" class="weixin" onmouseover="erweima1('erweima', 'show');" onmouseout="erweima1('erweima', 'hide');"></span>
+            <div class="erweima" id="erweima">
+                <img alt="微信" src="/static/tpl/market/images/login/weixin3.png" width="167" height="202">
+            </div>
+        </div>
+    </div>
+    <div class="blank"></div>
+    <div class="blank"></div>
+    <div class="w">
+
+        <div class="w" id="entry">
+            <div class="mcon" style="height: 442px;">
+                <div id="reg-pic" class="box-pic" style="left: 0px;"></div>
+                <div id="login-box" class="uc_box" style="right: 0px;">
+                    <form name="formLogin" action="#" method="post" onsubmit="return userLogin()">
+                        <h2><span>还没有账号？<a href='{{urlfor "MkController.Register"}}'>立即注册</a></span></h2> 
+                        <div class="form"> 
+                            <div class="item">
+                                <span class="label">账户名</span> 
+                                <input type="text" id="UserName" name="UserName" class="text" tabindex="1" placeholder="手机号码">
+                            </div>
+                            <div class="item">
+                                <span class="label">密码</span>
+
+                                <input type="password" id="PassWord" name="PassWord" class="text" tabindex="2">
+                            </div>
+                            <div class="item" id="autoentry">
+                                <div class="safety">
+                                   <!-- <input type="checkbox" value="1" name="remember" id="remember" class="checkbox">
+                                    <label for="remember" class="mar-b">请保存我这次的登录信息。</label>-->
+                         
+                                    <a class="forget_password" href="findPwd.php" style="color: #E4393C">忘记密码？</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <input type="hidden" name="act" value="act_login">
+                                <input type="hidden" name="back_act" value="user.php">
+                                <input type="submit" name="submit" class="btn-img btn-entry" id="loginsubmit" value="立即登录">
+                            </div>
+                            <div class="blank"></div>
+                            <div class="item">
+                                 
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div> 
+ 
+        <div class="blank"></div>
+    </div>
+
+
+
+    {{template "tpl//market/share/_bottom_box.html" .}}	
+    
+
+ 
+    <script type="text/javascript">
+
+
+        function userLogin() {
+            var userName =$("#UserName").val();
+            var passWord =$("#PassWord").val();
+            $.post('{{urlfor "LoginController.ChkLogin"}}', { UserName: userName, PassWord: passWord },
+                function (d) {
+
+                    if (d.Result == 0)
+                        alert(d.Msg);
+                    if (d.Result == 1)
+                        window.location.href = '{{urlfor "UserCenterController.Index"}}';
+
+                });
+            return false;
+        }
+
+
+
+
+
+        var process_request = "正在处理您的请求...";
+        var username_chana = "- 用户名不能有中文。";
+        var msg_uname_length = "- 用户名不能超过 20 个字符。";
+        var username_empty = "- 用户名不能为空。";
+        var username_shorter = "- 用户名长度不能少于 3 个字符。";
+        var username_invalid = "- 用户名只能是由字母数字以及下划线组成。";
+        var password_empty = "- 登录密码不能为空。";
+        var password_shorter = "- 登录密码不能少于 6 个字符。";
+        var confirm_password_invalid = "- 两次输入密码不一致";
+        var email_empty = "- Email 为空";
+        var email_invalid = "- Email 不是合法的地址";
+        var agreement = "- 您没有接受协议";
+        var msn_invalid = "- msn地址不是一个有效的邮件地址";
+        var qq_invalid = "- QQ号码不是一个有效的号码";
+        var home_phone_invalid = "- 家庭电话不是一个有效号码";
+        var office_phone_invalid = "- 办公电话不是一个有效号码";
+        var mobile_phone_invalid = "- 手机号码不是一个有效号码";
+        var msg_un_blank = "- 用户名不能为空";
+        var msg_un_chine = "- 用户名不能为中文";
+        var msg_un_length = "- 用户名不得超过14个字符";
+        var msg_un_format = "- 用户名含有非法字符";
+        var msg_un_registered = "- 用户名已经存在,请重新输入";
+        var msg_can_rg = "* 可以注册";
+        var msg_email_blank = "- 邮件地址不能为空";
+        var msg_email_registered = "- 邮箱已存在";
+        var msg_email_format = "- 邮件地址不合法";
+        var msg_mobile_phone_blank = "- 手机号码不能为空";
+        var msg_mobile_phone_registered = "- 手机号码已存在";
+        var msg_mobile_phone_format = "- 手机号码不是一个有效号码";
+        var msg_blank = "- 不能为空";
+        var no_select_question = "- 您没有完成密码提示问题的操作";
+        var passwd_balnk = "* 密码中不能包含空格";
+        var msg_email_code_blank = "- 邮箱验证码不能为空";
+        var msg_mobile_phone_code_blank = "- 手机验证码不能为空";
+        var msg_captcha_blank = "- 验证码不能为空";
+        var msg_register_type_blank = "- 注册类型不能为空";
+        var username_exist = "用户名 %s 已经存在";
+    </script>
+
+</body>
+</html>

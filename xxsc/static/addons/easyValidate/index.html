@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>js</title>
+    <script src="jquery-1.10.2.js"></script> 
+    <script src="validatePromapt.js"></script>
+    <script src="validateRegExp.js"></script>
+    <script src="validateRules.js"></script> 
+    <script src="easyValidate.js"></script>
+    <link href="easyValidate.css" rel="stylesheet" />
+    <script>
+    	
+    	 
+    	var validate = new easyValidate();
+    	$(function(){ 
+    		validate.init(); 
+    	});
+    	
+    	
+    	function submit(){
+    		
+    	 var doms =$(".jeValidate");
+    	 return validate.Check(doms);
+    	};
+    	
+    </script>
+    
+</head>
+
+<body> 
+	<div>
+		
+		    <input type="text" id="userName" class="jeValidate "  
+    rules="isNull" msg="username" />
+	</div>
+	<div>
+		
+		    <input type="text" id="reg" class="jeValidate "  
+    rules="isQty" msg="money" />
+    
+    
+	</div>
+	<div>
+		<input type="button" id="btn_ok" onclick="submit()"  value="提交"/>
+		
+	</div>
+
+
+</body>
+</html>

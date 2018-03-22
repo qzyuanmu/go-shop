@@ -1,0 +1,229 @@
+<div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">用户中心</a>
+            </li>
+            <li>公司管理</li>
+            <li class="active">公司栏目</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                公司栏目管理
+                <small>
+
+                </small>
+            </h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <button class="btn btn-primary" data-toggle="modal" onclick="addMenu()">
+                        <i class="icon-plus align-top bigger-125"></i>
+                        新增
+                    </button>
+                   
+                </p>
+                <!-- PAGE CONTENT BEGINS -->
+
+                <div class="table-responsive">
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover ">
+                        <thead>
+                            <tr>
+
+                                <th>栏目名称</th>
+                                
+                              
+
+                                <th>
+                                     
+                                   排序
+                                </th>
+                                <th class="hidden-480">是否显示</th>
+
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+{{range .ms}}
+                            <tr class="j_menu" tag="{{.Id}}">
+                                
+
+                                <td>
+                                {{if gt .ParentId  0}}&nbsp;&nbsp;  |--{{end}}     {{.Name}}
+                                </td>
+                                
+                                <td>{{.Sort}}</td>
+
+                                <td class="hidden-480">
+                                    <label>
+                                        <input name="switch-field-1" onclick="changeMenu(this,{{.Id}})" class="ace ace-switch ace-switch-7" type="checkbox" {{if eq .Status  1}} checked {{end}} >
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+
+                                <td>
+
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+
+
+                                        <a class=" btn  btn-primary  green"  href= '{{urlfor "CompanyController.MenuAdd" "id" .Id}}' target="_blank" title="编辑">
+                                            <i class="icon-pencil bigger-130"></i>
+                                        </a>
+
+                                        <button class=" btn btn-danger  red" onclick="delMenu({{.Id}})"  title="删除">
+                                            <i class="icon-trash bigger-130"></i>
+                                        </button>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- form开始  -->
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+ 
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+ 
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        SetSidebar("公司管理");
+        SetSidebar("公司栏目");
+        $('#Sort').ace_spinner({ value: 20, min: 5, max: 100, step: 5, on_sides: true, icon_up: 'icon-plus smaller-75', icon_down: 'icon-minus smaller-75', btn_up_class: 'btn-danger', btn_down_class: 'btn-success' });
+
+    });
+
+
+
+    function addMenu() {
+        window.location.href = '{{urlfor "CompanyController.MenuAdd"}}';
+    }
+
+    function setUrl(e) {
+
+        var v = $(e).val();
+        $("#Url").val($(e).attr("tag")+v);
+
+    }
+
+    function setMenu(m) {
+        
+        window.location.href = '{{urlfor "CompanyController.MenuAdd"}}';
+    }
+
+    function editMenu(id) {
+        $.post('{{urlfor "WxMenuController.GetMenu"}}', { id: id }, function (m) {  
+            setMenu(m);
+            $('#myModal').find('.modal-title').text('自定义菜单修改')
+            $('#myModal').modal('show'); 
+        }); 
+    }
+
+
+    function changeMenu(e,id) {
+        if ($(e).is(':checked')) {
+            $.post('{{urlfor "CompanyController.MenuEdit"}}', { Id: id, Status: 1 }, function (d) {
+
+                alert(d.Msg);
+
+            });
+
+        } else {
+ 
+            $.post('{{urlfor "CompanyController.MenuEdit"}}', { Id: id, Status: 2 }, function (d) {
+
+                alert(d.Msg);
+
+            });
+
+        }
+
+
+    }
+function createMenu(){
+	
+	$.post('{{urlfor "WxController.CreatMenu"}}',{},function(d){
+		alert(d)
+	});
+	
+}
+
+    function delMenu(id) {
+
+
+
+    }
+
+    function wxEdit() {
+
+        var data = $("#form_menu_edit").serialize();
+        $.post('{{urlfor "WxMenuController.Edit"}}', data, function (d) {
+
+            alert(d.Msg);
+
+        });
+    }
+</script>
+
+<style>
+    .btn {
+        border-width: 0px;
+    }
+</style>
+
+<!--	页尾自定义结束-->

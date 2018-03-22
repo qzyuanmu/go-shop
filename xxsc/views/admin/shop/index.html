@@ -1,0 +1,209 @@
+
+<link rel="stylesheet" href="/static/addons/jQuery-File-Upload/css/jquery.fileupload.css">
+<div class="main-content">
+
+	<div class="breadcrumbs" id="breadcrumbs">
+		<script type="text/javascript">
+			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+		</script>
+
+		<ul class="breadcrumb">
+			<li>
+				<i class="icon-home home-icon"></i>
+				<a href="#">用户中心</a>
+			</li>
+			<li>店铺管理</li>
+			<li class="active">店铺信息</li>
+		</ul>
+		<!-- .breadcrumb -->
+
+
+	</div>
+
+	<div class="page-content">
+		<div class="page-header">
+			<h1>
+								店铺信息维护
+								<small>
+									<i class="icon-double-angle-right"></i>
+									店铺的基本信息
+								</small>
+							</h1>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<!-- PAGE CONTENT BEGINS -->
+
+				<form id="form_shop_edit" class="  form-horizontal">
+                   <input type="hidden" id="Id" name="Id" value="{{.shop.Id}}"/>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							店铺名称: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="Name" name="Name"
+								value="{{.shop.Name}}" placeholder="店铺名称" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                            联系人:
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="Contact" name="Contact"
+                                   value="{{.shop.Contact}}" placeholder="联系人" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                            联系电话:
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="Phone" name="Phone"
+                                   value="{{.shop.Phone}}" placeholder="联系电话" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                            店铺地址:
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" id="Address" name="Address"
+                                   value="{{.shop.Address}}" placeholder="店铺地址" class="col-xs-10 col-sm-5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                            店铺Logo:
+                        </label>
+
+                        <div class="col-sm-9">
+                           <span class="btn btn-success fileinput-button col-xs-2">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    <span>选择图片</span>
+                                                   
+                                                    <input id="fileupload2" type="file" name="files[]" multiple="">
+                                                   </span> 
+                            <img  id="upImg" style="width:45px;height:45px" src="/{{.shop.LogoImg}}" />
+                             <input type="hidden" id="LogoImg" name="LogoImg" />
+                        </div>
+                    </div>
+
+
+
+
+
+					<div class="clearfix  ">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info" type="button" onclick="shopEdit()">
+								<i class="icon-ok bigger-110"></i> 保存
+							</button>
+
+							&nbsp; &nbsp; &nbsp;
+							<button class="btn" type="reset">
+								<i class="icon-undo bigger-110"></i> 重置
+							</button>
+						</div>
+					</div>
+
+
+
+				</form>
+
+
+
+
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+
+
+</div>
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+	<i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+</div>
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+<script src="/static/addons/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/static/addons/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/static/addons/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+			    
+				SetSidebar("店铺管理");
+				SetSidebar("店铺信息");
+				setUpload();
+		});
+	
+		
+		function shopEdit(){
+			
+		    var data = $("#form_shop_edit").serialize();
+		  //  data = data + "&LogoImg=" + $("#LogoImg").val();
+			 $.post('{{urlfor "ShopController.Edit"}}',data,function(d){
+					
+				alert(d.Msg);
+					
+				}); 
+		}
+
+
+		function setUpload() { 
+		    var url2 = '{{urlfor "UpImgController.JqUp2"}}';
+		    $('#fileupload2').fileupload({
+		        url: url2,
+		        dataType: 'json',
+		        done: function (e, data) {
+		            var r = data.result;
+		            $("#LogoImg").val(r.url);
+		            $("#upImg").attr("src","/"+ r.url);
+		        },
+		    }).prop('disabled', !$.support.fileInput)
+           .parent().addClass($.support.fileInput ? undefined : 'disabled'); 
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<style>
+	.btn {
+		border-width: 0px;
+	}
+</style>
+
+<!--	页尾自定义结束-->

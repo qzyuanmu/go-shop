@@ -1,0 +1,264 @@
+
+<link rel="stylesheet" href="/static/addons/editor.md/css/editormd.css" />
+
+
+
+
+<div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">用户中心</a>
+            </li>
+            <li>公司管理</li>
+            <li class="active">公司栏目</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                公司栏目
+                <small>
+                    <i class="icon-double-angle-right"></i>
+                    编辑
+                </small>
+            </h1>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+
+                <form id="form_news_edit" class="  form-horizontal">
+                    <input type="hidden" id="Id" name="Id" value="{{.menu.Id}}" />
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                            栏目排序:
+                        </label>
+
+                        <div class="col-sm-11">
+                            <input type="text" class="input-mini" id="Sort" name="Sort" value="{{.menu.Sort}}" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                            栏目名称:
+                        </label>
+
+                        <div class="col-sm-11">
+                            <input type="text" id="Name" name="Name" value="{{.menu.Name}}"
+                                   placeholder="栏目名称" class="col-xs-10 ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+
+
+                            上级栏目
+
+
+
+
+                        </label>
+
+                        <div class="col-sm-11">
+                            <select class=" col-xs-7  " id="ParentId" name="ParentId" >
+                                <option  
+                                        value="0">
+                                    无
+                                </option>
+
+                                {{range $i,$m := .ms}}
+                                {{if eq $m.ParentId 0}}
+ 
+
+
+                                    
+                                    <option  
+                                            value="{{$m.Id}}">
+                                        {{$m.Name}}
+                                    </option>
+                                     
+ 
+                                {{end}}
+                                {{end}}
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <div id="editormd"></div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix  ">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-info" type="button" onclick="wxEdit()">
+                                <i class="icon-ok bigger-110"></i> 保存
+                            </button>
+
+
+                        </div>
+                    </div>
+
+
+
+                </form>
+
+
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+
+<script src="/static/addons/editor.md/editormd.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        SetSidebar("公司管理");
+        SetSidebar("公司栏目");
+
+        $('#Sort').ace_spinner({ value: 20, min: 5, max: 100, step: 5, on_sides: true, icon_up: 'icon-plus smaller-75', icon_down: 'icon-minus smaller-75', btn_up_class: 'btn-danger', btn_down_class: 'btn-success' });
+        setMD();
+    });
+
+
+
+
+    var md;
+    function setMD() {
+
+
+
+        md = editormd("editormd", {
+            width: "90%",
+            height: 740,
+            path: '/static/addons/editor.md/lib/',
+            //theme: "dark",
+            // previewTheme: "dark",
+            //editorTheme: "pastel-on-dark",
+            markdown: '{{.menu.Info}}',
+            codeFold: true,
+            //syncScrolling : false,
+            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+            searchReplace: true,
+            //watch : false,                // 关闭实时预览
+            htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+            //toolbar  : false,             //关闭工具栏
+            //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            emoji: true,
+            taskList: true,
+            tocm: true,         // Using [TOCM]
+            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart: true,             // 开启流程图支持，默认关闭
+            sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+            //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+            //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+            //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+            //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+            //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: '{{urlfor "UpImgController.Md"}}',
+            onload: function () {
+                console.log('onload', this);
+                //this.fullscreen();
+                //this.unwatch();
+                //this.watch().fullscreen();
+
+                //this.setMarkdown("#PHP");
+                //this.width("100%");
+                //this.height(480);
+                //this.resize("100%", 640);
+            }
+
+
+        });
+    }
+
+
+
+    function chkWx() {
+        var t = $("#chk_wx").is(':checked');
+        if (t) {
+
+            $("#wxMenu").show();
+
+        } else {
+            $("#wxMenu").hide();
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+    function wxEdit() {
+
+        var data = $("#form_news_edit").serialize();
+        data = data.replace("&editormd-markdown-doc", "&Info");
+        data = data.replace("&editormd-html-code", "&InfoHtml");
+
+        $.post('{{urlfor "CompanyController.MenuEdit"}}', data, function (d) {
+            if (d.Data.Id > 0) {
+                $("#Id").val(d.Data.Id);
+            }
+            BootstrapDialog.alert(d.Msg);
+
+        });
+    }
+</script>
+
+<style>
+    .btn {
+        border-width: 0px;
+    }
+
+    #wxMenu .parent {
+        font-weight: bold !important;
+        font-size: 14px;
+        color: blue;
+    }
+</style>
+<!--	页尾自定义结束-->

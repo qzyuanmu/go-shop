@@ -1,0 +1,19 @@
+ <div class="top_box">
+            <div class="top_box_inner">
+                <div class="topcontent"></div><div class="clear"></div>
+                <div class="logo"><a href="">
+				<img src="/static/img/logo.png" border="0">
+				</a></div>
+                <div class="menu_box" id="Menu">
+                    <ul>
+					{{range .tpl}}
+                        <li class="{{.Class}}" id="MenuItem61"
+						 name="MenuItem">
+						<a href="{{.Url}}" class="menu">{{.Name}}</a></li>
+                      
+						
+						{{end}}
+                    </ul>
+                </div>
+            </div>
+        </div>

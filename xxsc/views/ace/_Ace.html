@@ -1,0 +1,51 @@
+﻿
+<!DOCTYPE html>
+<html  >
+	<head>
+		<meta charset="utf-8" />
+		<title>{{.Title}}</title>
+		<meta name="keywords" content="{{.KeyWords}}" />
+		<meta name="description" content="{{.Description}}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico">
+		<!-- basic styles -->
+
+		<link href="/static/addons/ace/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/static/addons/ace/assets/css/font-awesome.min.css" />
+
+		 
+ 
+		
+ 
+
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="/static/addons/ace/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="/static/addons/ace/assets/css/ace-rtl.min.css" />
+
+		 
+ 
+	</head>
+
+	<body class="{{.Layout}}">
+	 
+	
+ <script src="/static/addons/ace/assets/js/jquery-2.0.3.min.js"></script>
+
+	 
+	{{.LayoutContent}} 
+ 
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/static/addons/ace/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- inline scripts related to this page -->
+		
+		
+<script src="/static/addons/ace/assets/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="/static/addons/bootstrap-dialog/css/bootstrap-dialog.min.css">
+ <script type="text/javascript" src="/static/addons/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
+
+</body>
+</html>

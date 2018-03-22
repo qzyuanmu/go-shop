@@ -1,0 +1,129 @@
+﻿<link href="/static/tpl/market/css/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="/static/addons/jQuery-File-Upload/css/jquery.fileupload.css">
+<script src="/static/addons/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/addons/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+<!-- <script type="text/javascript" src="js/region.js"></script>
+  <script type="text/javascript" src="js/shopping_flow.js"></script>-->
+<script src="/static/js/city.js"></script>
+<link href="/static/addons/nice-validator/jquery.validator.css" rel="stylesheet" />
+<script src="/static/addons/nice-validator/jquery.validator.js"></script>
+<script src="/static/addons/nice-validator/local/zh-CN.js"></script>
+<script>
+    $(function () {
+      
+
+    });  
+
+    function userEdit() {
+        var max = $("#Money").attr("tag");
+        var m = $("#Money").val();
+        if ((m - max)>0) {
+            alert("余额不足");
+            return;
+        }
+        var memo = $("#Memo").val();
+        m = m * 100;
+        $.post('{{urlfor "JsonUserController.TiXian"}}', {m:m,memo:memo}, function (d) {
+            if (d.Result == 1) {
+                 
+                if (confirm(d.Msg)) {
+                    window.location.reload();
+                }
+
+            } else {
+                alert(d.Msg);
+            }
+        });
+        return false;
+
+        
+    }
+
+
+ 
+</script>
+
+<div class="blank"></div>
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a>
+        <code>&gt;</code> 用户中心
+    </div>
+</div>
+<div class="blank"></div>
+
+<div class="block clearfix">
+    {{template "tpl/market/share/_u_menu.html" .}}	
+
+     <div class="AreaR">
+         <div class="box">
+               <div class="box_1">
+        <div class="userCenterBox boxCenterList clearfix">    
+           
+          <script type="text/javascript">
+                      var surplus_amount_empty = "请输入您要操作的金额数量！";
+                      var surplus_amount_error = "您输入的金额数量格式不正确！";
+                      var process_desc = "请输入您此次操作的备注信息！";
+                      var payment_empty = "请选择支付方式！";
+                  </script>
+          <div class="tabmenu">
+              <ul class="tab pngFix">
+                <li class="first active">会员余额</li>
+              </ul>
+          </div>
+                   <div class="mar_top">
+          <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
+            <tbody><tr>
+              <td align="right" bgcolor="#ffffff"><a href='{{urlfor "UserCenterController.Bank"}}' class="f6">资金帐号</a> | 
+                  <a href='{{urlfor "UserCenterController.Money"}}' class="f6">提现</a> |
+                   <a href='{{urlfor "UserCenterController.MoneyLog"}}' class="f6">查看帐户明细</a> 
+                  | <a href='{{urlfor "UserCenterController.ApplyLog"}}' class="f6">查看申请记录</a></td>
+            </tr>
+          </tbody></table>
+          </div>
+           
+                    <form name="formSurplus" method="post" action="#"  >
+            <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E6E6E6">
+              <tbody><tr>
+                <td width="15%" bgcolor="#ffffff">提现金额:</td>
+                <td bgcolor="#ffffff" align="left">
+                    <input type="text" name="Money" id="Money" tag="{{.user.Money|fp}}" value="" class="inputBg" size="30" />
+                  可提现最大金额为  <span class="red">￥{{.user.Money|fp}}</span>
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="#ffffff">会员备注:</td>
+                <td bgcolor="#ffffff" align="left">
+                    <textarea name="Memo" id="Memo" cols="55" rows="6" style="border:1px solid #ddd;"></textarea></td>
+              </tr>
+              <tr>
+                <td bgcolor="#ffffff" colspan="2" align="center">
+                    
+                  <input onclick="userEdit()"  name="submit" class="bnt_blue_1" value="提交申请">
+                  <input type="reset" name="reset" class="bnt_blue_1" value="重置表单"></td>
+              </tr>
+            </tbody></table>
+          </form>
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+          
+        </div>
+      </div>
+
+         </div>
+     </div>
+
+    <div style="height: 10px; line-height: 10px; clear: both;"></div>
+    <div class="blank"></div>
+</div>

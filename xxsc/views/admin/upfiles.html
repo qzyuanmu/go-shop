@@ -1,0 +1,171 @@
+
+<!--引入CSS-->
+<link rel="stylesheet" type="text/css" href="/static/addons/webuploader/webuploader.css">
+
+<!--引入JS-->
+<script type="text/javascript" src="/static/addons/webuploader/webuploader.js"></script>
+
+<div class="main-content">
+
+	<div class="breadcrumbs" id="breadcrumbs">
+		<script type="text/javascript">
+			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+		</script>
+
+		<ul class="breadcrumb">
+			<li>
+				<i class="icon-home home-icon"></i>
+				<a href="#">用户中心</a>
+			</li>
+			<li>店铺管理</li>
+			<li class="active">店铺信息</li>
+		</ul>
+		<!-- .breadcrumb -->
+
+
+	</div>
+
+	<div class="page-content">
+		<div class="page-header">
+			<h1>
+								店铺信息维护
+								<small>
+									<i class="icon-double-angle-right"></i>
+									店铺的基本信息
+								</small>
+							</h1>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<!-- PAGE CONTENT BEGINS -->
+
+				<form id="form_shop_edit" class="  form-horizontal">
+                   <input type="hidden" id="Id" name="Id" value="{{.shop.Id}}"/>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							店铺名称: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="Name" name="Name"
+								value="{{.shop.Name}}" placeholder="店铺名称" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							店铺图片: </label>
+
+						<div class="col-sm-9">
+						
+						 <div id="uploader-demo">
+    <!--用来存放item-->
+    <div id="fileList" class="uploader-list"></div>
+    <div id="filePicker">选择图片</div>
+</div>
+						
+						
+						
+					</div>
+
+
+					<div class="clearfix  ">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info" type="button" onclick="shopEdit()">
+								<i class="icon-ok bigger-110"></i> 保存
+							</button>
+
+							&nbsp; &nbsp; &nbsp;
+							<button class="btn" type="reset">
+								<i class="icon-undo bigger-110"></i> 重置
+							</button>
+						</div>
+					</div>
+
+
+
+				</form>
+
+
+
+
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+
+
+</div>
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+	<i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+</div>
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+<script type="text/javascript">
+	$(function(){
+			    
+				SetSidebar("店铺管理");
+		        SetSidebar("图片上传");
+		});
+	
+	// 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: '/static/addons/webuploader/Uploader.swf',
+
+    // 文件接收服务端。
+    server: '{{urlfor "UpImgController.Up"}}',
+    formData:{imgType:'info'},
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#filePicker',
+
+    // 只允许选择图片文件。
+    accept: {
+        title: 'Images',
+        extensions: 'jpg',
+        mimeTypes: 'image/*'
+    }
+});
+	
+	
+uploader.on( 'uploadAccept', function( file, response ) {
+    alert(response	);
+});
+	
+ 
+	
+	
+	
+		
+		function shopEdit(){
+			
+			var data =$("#form_shop_edit").serialize() ;
+			 $.post('{{urlfor "ShopController.Edit"}}',data,function(d){
+					
+				alert(d.Msg);
+					
+				}); 
+		}
+</script>
+
+<style>
+	.btn {
+		border-width: 0px;
+	}
+</style>
+
+<!--	页尾自定义结束-->

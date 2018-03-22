@@ -1,0 +1,147 @@
+<div id="site-nav">
+    <script type="text/javascript">
+        var process_request = "正在处理您的请求...";
+    </script>
+    <div id="sn-bg">
+        <div class="sn-bg-right"></div>
+    </div>
+    <div id="sn-bd">
+        <b class="sn-edge"></b>
+        <div class="sn-container">
+             <p id="login-info" class="sn-login-info">
+            {{if .u}}
+            <em>{{.u.UserName}} 欢迎您回来！</em> 
+<a class="sn-login" href='{{urlfor "UserCenterController.Index"}}' target="_top">用户中心</a>
+<a class="sn-register" href='{{urlfor "MkController.LoginOut"}}' target="_top">退出</a>
+            {{else}} 
+                <em>芝麻乐购欢迎您!</em> 
+                <a class="sn-login" href='{{urlfor "MkController.Login"}}' target="_top">请登录</a>
+                <a class="sn-register" href='{{urlfor "MkController.Register"}}' target="_top">免费注册</a> 
+         {{end}}
+           </p>
+
+
+
+            <ul class="sn-quick-menu">
+                <li class="sn-mytaobao menu-item j_MyTaobao">
+                    <div class="sn-menu">
+                        <a aria-haspopup="menu-2" tabindex="0" class="menu-hd" href='{{urlfor "UserCenterController.Index"}}' target="_top" rel="nofollow">
+                            我的信息<b></b></a>
+                        <div id="menu-2" aria-hidden="true" role="menu" class="menu-bd">
+                            <div class="menu-bd-panel" id="myTaobaoPanel">
+                                <a href="#" target="_top" rel="nofollow">已买到的宝贝</a>
+                                <a href="#" target="_top" rel="nofollow">我的地址管理</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+             <!--   <li class="sn-mybrand">
+                    <a target="_top" id="J_SnMyBrand"
+                         class="sn-mybrand-link mui-global-iconfont" href="#">我关注的店铺</a> </li>-->
+                <li class="sn-cart mini-cart menu">
+                    <a id="mc-menu-hd" class="sn-cart-link mui-global-iconfont" 
+                        href='{{urlfor "UserCenterController.Cart"}}'  target="_top" rel="nofollow">购物车</a></li>
+                <li class="sn-favorite menu-item">
+                    <div class="sn-menu">
+                        <a aria-haspopup="menu-4" tabindex="0" class="menu-hd" href="user.php?act=collection_list" target="_top" rel="nofollow">收藏夹<b></b></a>
+                        <div id="menu-4" aria-hidden="true" role="menu" class="menu-bd">
+                            <div class="menu-bd-panel">
+                                <a href="#" target="_top" rel="nofollow">收藏的宝贝</a>
+                                <a href="#" target="_top" rel="nofollow">收藏的店铺</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="sn-separator"></li>
+                <script type="text/javascript">
+                    function show_qcord() {
+                        var qs = document.getElementById('sn-qrcode');
+                        qs.style.display = "block";
+                    }
+                    function hide_qcord() {
+                        var qs = document.getElementById('sn-qrcode');
+                        qs.style.display = "none";
+                    }
+                </script>
+                <li class="menu-item">
+                    <div class="sn-menu">
+                        <a aria-haspopup="menu-6" tabindex="0" class="menu-hd sn-mobile-link" href="" target="_top">手机版<b></b></a>
+                        <div class="menu-bd sn-qrcode" role="menu" aria-hidden="true" id="menu-5">
+                            <ul>
+                                <li class="app_xiazai">
+                                    <a href="#" target="_top" class="app_store"></a>
+                                    <img src="/static/tpl/market/images/app.jpg" alt="手机客户端" width="76px" height="76px">
+                                </li>
+                                <li class="app_xiazai1">
+                                    <a href="#" target="_top" class="app_android"></a>
+                                    <img src="/static/tpl/market/images/android.jpg" alt="手机客户端" width="76px" height="76px">
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="sn-seller menu-item">
+                    <div class="sn-menu J_DirectPromo">
+                        <a aria-haspopup="menu-6" tabindex="0" class="menu-hd" href="" target="_top">商家支持<b></b></a>
+                        <div class="menu-bd sn-seller-lazy" role="menu" aria-hidden="true" id="menu-6">
+                            <ul>
+                                <li>
+                                    <h3>商家：</h3>
+
+                                    <a href="#">售后流程</a>
+
+                                    <a href="#">购物流程</a>
+
+                                    <a href="#">订购方式</a>
+
+                                    <a href="#">常见问题</a>
+
+                                </li>
+                                <li>
+                                    <h3>帮助：</h3>
+                                    <a href="#" target="_top">帮助中心</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="sn-sitemap">
+                    <div class="sn-menu">
+                        <h3 class="menu-hd" tabindex="0" aria-haspopup="menu-8"><span class="sn-site-link">网站导航</span><b></b></h3>
+                        <div data-spm="a2228l4" class="menu-bd sn-sitemap-lazy sn-sitemap-bd" role="menu" aria-hidden="true" id="menu-8">
+                            <div class="site-cont site-hot">
+                                <h2>热点推荐<span>Hot</span></h2>
+                                <ul class="site-list">
+                                    <li><a href="#">特色馆</a></li>
+                                    <li><a href="#">淘城惠</a></li>
+                                    <li><a href="#">优惠活动</a></li>
+                                    <li><a href="#">商家入驻 </a></li>
+                                    <li><a href="#">淘城公告 </a></li>
+                                </ul>
+                            </div>
+                            <div class="site-cont site-market">
+                                <h2>主题市场<span>Market</span></h2>
+                                <ul class="site-list">
+                                    <li><a href="#">绵竹特产</a></li>
+                                </ul>
+                            </div>
+                            <div class="site-cont site-brand">
+                                <h2>淘城好店<span>Stores</span></h2>
+                                <ul class="site-list">
+                                    <li><a href="#">康盛超市</a></li>
+                                    <li><a href="#">天波农贸</a></li>
+                                    <li><a href="#">永颜日化</a></li>
+                                    <li><a href="#">清平山货坊</a></li>
+                                    <li><a href="#">寸辉贸易</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

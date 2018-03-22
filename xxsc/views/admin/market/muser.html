@@ -1,0 +1,306 @@
+﻿<div class="main-content">
+
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home home-icon"></i>
+                <a href="#">用户中心</a>
+            </li>
+            <li>商城管理</li>
+            <li class="active">会员管理</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+
+    </div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1>
+                商城管理
+                <small>
+                    <i class="icon-double-angle-right"></i> 会员管理
+                </small>
+            </h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <input class="input-sm" type="text" id="form-field-4" placeholder="用户名">
+                    <input class="ace" type="checkbox" id="id-disable-check">
+                    <span class="lbl"> 业务员</span>
+                    <button class="btn btn-xs btn-primary" data-toggle="modal">
+                        <i class="icon-search align-top bigger-110"></i>
+                        查询
+                    </button>
+                   
+                </p>
+                <!-- PAGE CONTENT BEGINS -->
+
+                <div class="table-responsive">
+                    <table id="sample-table-1" class="table table-striped table-bordered table-hover ">
+                        <thead>
+                            <tr>
+
+                                <th>用户名</th> 
+                                 <th> 
+                                   真实姓名
+                                </th>
+                                 <th> 
+                                   会员级别
+                                </th>
+                                
+                                
+
+                                <th>推荐人</th>
+                                <th>余额</th>
+                                <th class="col-xs-2">操作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+{{range .users}}
+                            <tr class="j_menu" tag="{{.Id}}">
+                                
+
+                                <td>
+                                {{.UserName}}
+                                </td>
+                                <td>{{.RealName}}</td>
+                           <td>{{.Flg}}</td>
+                             
+                                
+
+                                <td>{{.Introducer}}</td>
+                                <td>{{.Money|fp}}</td>
+                                <td>
+
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                       
+                                        
+                                         <button class="btn btn-xs btn-success">
+												<i class="icon-ok bigger-110"></i>编辑
+
+                                        </button>
+
+                                         <button class="btn btn-xs btn-danger">
+												<i class="icon-lock bigger-110"></i>锁定
+
+                                        </button> 
+ 
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- form开始  -->
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">店铺分类编辑</h4>
+                            </div>
+                            <div class="modal-body">
+							
+                                <form id="form_menu_edit" class="  form-horizontal">
+                                    <input type="hidden" id="Id" name="Id"  /> 
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            排序:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text" class="input-mini" id="Sort" name="DisplayOrder" /> 
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            上级分类:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <select class="  col-xs-7" id="ParentId"  name="ParentId">
+                                                <option value="0">无</option> 
+                                                 
+                                                 {{range $i1,$m1:= .ps}} 
+                                                    {{if eq $m1.ParentId 0}}
+                                                    <option value="{{$m1.Id}}">{{$m1.Name}}</option>
+                                                   {{end}}
+                                                {{end}}  
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+                                            分类名称:
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <input type="text"  id="Name" name="Name" 
+                                                   placeholder="分类名称" class="col-xs-10 ">
+                                        </div>
+                                    </div>
+                                   
+      
+
+                                    <div class="clearfix  ">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button class="btn btn-info" type="button" onclick="wxEdit()">
+                                                <i class="icon-ok bigger-110"></i> 保存
+                                            </button>
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+ 
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+    <i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+ 
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        SetSidebar("商城管理");
+        SetSidebar("会员店铺");
+        $('#Sort').ace_spinner({ value: 1, min: 1, max: 100, step: 1, on_sides: true, icon_up: 'icon-plus smaller-75', icon_down: 'icon-minus smaller-75', btn_up_class: 'btn-danger', btn_down_class: 'btn-success' });
+
+    });
+
+
+
+    function addMenu() {
+        $("#Id").val(0);
+        $("#Sort").val(5);
+        $("#Name").val(null);
+        
+        $("#ParentId").val('0');
+        $('#myModal').find('.modal-title').text('新增店铺分类')
+        $('#myModal').modal('show');
+    }
+
+    function setUrl(e) {
+ 
+
+    }
+
+    function setMenu(m) {
+        
+        $("#Id").val(m.Id);
+        $("#Sort").val(m.DisplayOrder);
+        $("#Name").val(m.Name);
+      
+        $("#ParentId").val(m.ParentId);
+    }
+
+    function editMenu(id) {
+        $.post('{{urlfor "ShopCategoryController.GetMenu"}}', { id: id }, function (m) {  
+            setMenu(m);
+            $('#myModal').find('.modal-title').text('店铺分类修改')
+            $('#myModal').modal('show'); 
+        }); 
+    }
+
+
+     
+function createMenu(){
+	
+    $.post('{{urlfor "ShopCategoryController.CreatMenu"}}', {}, function (d) {
+		alert(d)
+	});
+	
+}
+
+    function delMenu(id) {
+
+
+
+    }
+
+    function wxEdit() {
+
+        var data = $("#form_menu_edit").serialize();
+        $.post('{{urlfor "ShopCategoryController.Edit"}}', data, function (d) {
+            if (d.Result != 1)
+                alert(d.Msg);
+            else
+                window.location.reload();
+
+        });
+    }
+</script>
+
+<style>
+    .btn {
+        border-width: 0px;
+    }
+</style>
+
+<!--	页尾自定义结束-->

@@ -1,0 +1,69 @@
+﻿
+<link href="/static/tpl/market/css/new_order_member.css" rel="stylesheet" />
+
+<style>
+    .boxCenterList ul {
+	min-height: 1%;
+	display: block;
+	height: auto;
+	margin-bottom: 5px;
+}
+</style>
+ <div class="AreaL">
+      <div class="box"> 
+	  	<div class="sideNav">
+  <h1><a href='{{urlfor "UserCenterController.Index"}}'><span>会员中心</span></a></h1>
+  <div class="userInfo">
+    <div class="myInfo clearfix"> 
+      <div class="photo">
+        <div class="mask"></div>
+        
+        <img id="headImagePath" src="/{{.user.UserImg}}"
+             height="80" width="80"/>
+        </div>
+      <div class="info_op">
+      	<ul>
+        	<li class="info_op2"><i></i><a href='{{urlfor "UserCenterController.Info"}}'>修改资料</a></li>
+        	<li class="info_op3"><i></i><a href='{{urlfor "MkController.LoginOut"}}'>安全退出</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="cost">{{.user.UserName}}</p>
+  </div>
+</div>
+ 
+		<div class="navList">
+      <div class="func func1 clearfix">
+        <p class="title"><i></i><span>会员中心</span></p>
+        <a href='{{urlfor "UserCenterController.Index"}}' class="item curs"><span>欢迎页</span><i></i></a> 
+        <a href= '{{urlfor "UserCenterController.Info"}}' class="item "><span>用户信息</span><i></i></a>
+        <!-- 
+        <a href="user.php?act=account_security" class="item "><span>账户安全</span><i></i></a>    
+         -->
+        <a href='{{urlfor "UserCenterController.ChangePwd"}}' class="item "><span>修改密码</span><i></i></a>    
+        <a href='{{urlfor "UserCenterController.Address"}}' class="item "><span>收货地址</span><i></i></a>
+        <a href='{{urlfor "UserCenterController.Money"}}' class="item "><span>资金管理</span><i></i></a>
+        <a href="#" class="item "><span>我的红包</span><i></i></a>
+         
+	
+	 
+	
+      </div>
+      <div class="func func2 clearfix">
+        <p class="title"><i></i><span>交易中心</span></p>
+        <a href='{{urlfor "UserCenterController.OrderList"}}' class="item "><span>我的订单</span><i></i></a>  
+        
+      </div>
+      <div class="func func3 clearfix">
+        <p class="title"><i></i><span>服务中心</span></p>
+         
+	{{if eq 0 .u.ShopId}}
+        <a href='{{urlfor "UserCenterController.Apply"}}' class="item"><span>我要开店</span><i></i></a>
+          {{else}}
+           <a href='{{urlfor "IndexController.Index"}}' target="_blank" class="item">
+               <span>店铺管理</span><i></i></a>
+          {{end}}
+    </div>
+</div> 
+      </div>
+    </div>

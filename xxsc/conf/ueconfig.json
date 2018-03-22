@@ -1,0 +1,12 @@
+ 
+{ 
+    "imageActionName":"uploadimage",
+    "imageFieldName":"upfile", 
+    "imageMaxSize":2048000, 
+    "imageAllowFiles":[ ".jpg"], 
+    "imageCompressEnable":true,  
+    "imageCompressBorder":1600,  
+    "imageInsertAlign":"none",  
+    "imageUrlPrefix":"" 
+ 
+}

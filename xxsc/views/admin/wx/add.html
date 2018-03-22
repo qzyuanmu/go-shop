@@ -1,0 +1,200 @@
+<div class="main-content">
+
+	<div class="breadcrumbs" id="breadcrumbs">
+		<script type="text/javascript">
+			try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+		</script>
+
+		<ul class="breadcrumb">
+			<li>
+				<i class="icon-home home-icon"></i>
+				<a href="#">用户中心</a>
+			</li>
+			<li>微信管理</li>
+			<li class="active">微信接入</li>
+		</ul>
+		<!-- .breadcrumb -->
+
+
+	</div>
+
+	<div class="page-content">
+		<div class="page-header">
+			<h1>
+								微信接入
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 基本信息
+								</small>
+							</h1>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<!-- PAGE CONTENT BEGINS -->
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+
+				<form id="form_shop_edit" class="  form-horizontal">
+                   <input type="hidden" id="Id" name="Id" value="{{.wx.Id}}"/>
+				
+				
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							微信名称: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="Name" name="Name"
+								value="{{.wx.Name}}" placeholder="微信名称" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+				
+				
+				
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							原始ID: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="OriId" name="OriId"
+								value="{{.wx.OriId}}" placeholder="原始ID" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+					
+					
+					
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							AppID: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="AppId" name="AppId"
+								value="{{.wx.AppId}}" placeholder="AppID" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							AppSecret: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="AppSecret" name="AppSecret"
+								value="{{.wx.AppSecret}}" placeholder="AppSecret" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							Token: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="Token" name="Token"
+								value="{{.wx.Token}}" placeholder="Token" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right" for="form-field-1">
+							AesKey: </label>
+
+						<div class="col-sm-9">
+							<input type="text" id="AesKey" name="AesKey"
+								value="{{.wx.AesKey}}" placeholder="AesKey" class="col-xs-10 col-sm-5">
+						</div>
+					</div>
+					
+					
+					
+					
+                   
+
+					<div class="clearfix  ">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info" type="button" onclick="wxEdit()">
+								<i class="icon-ok bigger-110"></i> 保存
+							</button>
+
+							&nbsp; &nbsp; &nbsp;
+							<button class="btn" type="reset">
+								<i class="icon-undo bigger-110"></i> 重置
+							</button>
+						</div>
+					</div>
+
+
+
+				</form>
+
+
+
+
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.page-content -->
+</div>
+<!-- /.main-content -->
+
+
+</div>
+<!-- /.main-container-inner -->
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+	<i class="icon-double-angle-up icon-only bigger-110"></i>
+</a>
+
+
+</div>
+
+<!--	页尾自定义-->
+<script src="/static/addons/ace/assets/je/ex.js"></script>
+<script type="text/javascript">
+	$(function(){
+			    
+				SetSidebar("微信管理");
+		        SetSidebar("微信接入");
+		});
+	
+		
+		function wxEdit(){
+			
+			var data =$("#form_shop_edit").serialize() ;
+			 $.post('{{urlfor "WxController.Edit"}}',data,function(d){
+					
+				alert(d.Msg);
+					
+				}); 
+		}
+</script>
+
+<style>
+	.btn {
+		border-width: 0px;
+	}
+</style>
+
+<!--	页尾自定义结束-->

@@ -1,0 +1,292 @@
+﻿<link href="/static/tpl/market/css/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="/static/addons/jQuery-File-Upload/css/jquery.fileupload.css">
+<script src="/static/addons/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/addons/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+<!-- <script type="text/javascript" src="js/region.js"></script>
+  <script type="text/javascript" src="js/shopping_flow.js"></script>-->
+<script src="/static/js/city.js"></script>
+<link href="/static/addons/nice-validator/jquery.validator.css" rel="stylesheet" />
+<script src="/static/addons/nice-validator/jquery.validator.js"></script>
+<script src="/static/addons/nice-validator/local/zh-CN.js"></script>
+<script>
+    $(function () {
+      
+
+    });  
+
+    function changePwd() {
+     if ( $("#formEdit").isValid())  {
+
+            var old = $("#old_password").val();
+            var n = $("#new_password").val();
+
+            $.post('{{urlfor "JsonUserController.ChangePwd"}}', { o: old, n: n }, function (d) {
+                if (d.Result == 1) {
+
+                    alert("修改成功！");
+
+                } else {
+                    alert(d.Msg);
+                }
+            });
+        };
+        return false;
+
+        
+        }
+     
+
+
+ 
+</script>
+
+<div class="blank"></div>
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a>
+        <code>&gt;</code> 用户中心
+    </div>
+</div>
+<div class="blank"></div>
+
+<div class="block clearfix">
+    {{template "tpl/market/share/_u_menu.html" .}}	
+
+     <div class="AreaR">
+
+         <div class="box">
+             <div class="box_1">
+                 <div class="userCenterBox boxCenterList clearfix">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     <div class="tabmenu">
+                         <ul class="tab pngFix">
+                             <li class="active"> <a href='{{urlfor "UserCenterController.OrderList"}}'>我的订单</a> </li>
+                         </ul>
+                     </div>
+                     <div class="blank"></div>
+                     <div id="J_Remide" class="remide-box">
+                         <h3 style=" width:100px;line-height:35px;background:none">我的交易提醒：</h3>
+                         <ul>
+                            <li><a href='{{urlfor "UserCenterController.OrderList" "flg" 1}}'>待付款 </a></li>
+                             <li><a href='{{urlfor "UserCenterController.OrderList" "flg" 2}}'>待发货 </a></li>
+                             <li><a href='{{urlfor "UserCenterController.OrderList" "flg" 3}}'>已发货 </a></li>
+                             <li><a href='{{urlfor "UserCenterController.OrderList" "flg" 4}}'>已完成订单数 </a></li>
+                         </ul>
+                     </div>
+                     <div class="extra-r" style="display:none">
+                         <div class="search-01">
+                             <input id="ip_keyword" name="" class="s-itxt" value="商品名称、商品编号、订单编号" onfocus="if (this.value==this.defaultValue) this.value=''" onblur="if (this.value=='') this.value=this.defaultValue" onkeydown="javascript:if(event.keyCode==13) OrderSearch('ip_keyword');" type="text">
+                             <!--input name="" type="button" value="查 询" class="btn-13" onclick="OrderSearch('ip_keyword')" clstag="click|keycount|orderinfo|search"/-->
+                             <a href="javascript:;" class="btn-13" onclick="OrderSearch('ip_keyword')" clstag="click|keycount|orderinfo|search">查 询</a>
+                         </div>
+                         <div class="blank"></div>
+                     </div>
+                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bought-table">
+                         <thead>
+                             <tr class="col-name">
+                                 <th width="32%" style="border-left: 1px solid #E6E6E6;">宝贝</th>
+                                 <th width="10%">属性</th>
+                                 <th width="9%">单价(元)</th>
+                                 <th width="5%">数量</th> 
+                                 <th width="8%"> 总金额</th>
+                                 <th width="8%"> 总红包</th>
+                                 <th width="10%">状态</th>
+                                 <th width="13%" style="border-right: 1px solid #E6E6E6;">操作</th>
+                             </tr>
+                         </thead>
+   {{range .ms}}
+                         <tbody class="close-order">
+                             <tr class="sep-row">
+                                 <td colspan="7"></td>
+                             </tr>
+                             <tr class="order-hd">
+                                 <td colspan="8">
+                                     <span class="no">
+                                         <label>
+                                             订单编号：<span class="order-num">
+                                                 <a href="#" class="f6">{{.Order.Id}}</a>
+                                             </span>
+                                         </label>
+                                     </span> <span class="deal-time">&nbsp;&nbsp;成交时间：{{date .Order.CreateTime "Y-m-d H:i:s"}}</span>
+                                      <span class="deal-time">&nbsp;&nbsp;商家店铺：{{.Shop.Name}}</span>
+
+                                       </td>
+                             </tr>
+                             <tr class="order-bd last">
+                                 <td align="center" class="baobei no-border-right" style="padding:0px;">
+
+                                    {{range .OrderDet}}
+                                     <div class="goods_desc ">
+                                         <a class="pic" href='{{urlfor "MkController.Product" "pId" .ProductId}}' 
+                                            title="查看宝贝详情" target="_blank">
+
+                                             <img src="/{{.ProductImg}}" 
+                                                  alt="查看宝贝详情" width="50" height="50">
+
+                                         </a>
+                                         <div class="goods_name">  {{.ProductName}}</div>
+                                     </div>
+                                     {{end}}
+
+                                      
+
+                                 </td>
+                                 <td align="center" class="baobei no-border-right">
+                                      
+                                     {{range .OrderDet}}
+                                     <div class="goods_desc goods_desc_t"> {{.ProductTypeName}} </div>
+
+                                     {{end}}
+                                    
+
+                                 </td>
+                                 <td align="center" class="baobei no-border-right" style="padding:0px;">
+                                     {{range .OrderDet}}
+                                     <div class="goods_desc price  " style="padding-left:0px; line-height:50px;">
+                                      ￥{{.Price|fp}} </div>
+                                     {{end}}
+ 
+                                 </td>
+                                 <td align="center" class="baobei no-border-right" style="padding:0px;">
+                                     {{range .OrderDet}}
+                                     <div class="goods_desc  " style="padding-left:0px;line-height:50px;">
+                                         {{.Quantity}} 
+                                     </div>
+                                     {{end}}
+ 
+                                 </td>
+                                
+                                 <td rowspan="1" align="center" class="amount no-border-right">
+                                     <p class="post-type">
+                                         <strong>
+
+                                             ￥{{.Order.SumMoney|fp}}
+                                         </strong>
+                                     </p>
+                                 </td>
+                                 <td rowspan="1" align="center" class="amount no-border-right">
+                                     <p class="post-type">
+                                         <strong>
+
+                                              {{.Order.SumRed}}
+                                         </strong>
+                                     </p>
+                                 </td>
+                                 <td rowspan="1" align="center" class="trade-status no-border-right">
+                                   {{.Order.FlgValue}}
+                                     <br />
+                                     <a href="#" class="red2">查看详情</a>
+
+                                 </td>
+                                 <td rowspan="1" align="center" class="other">
+
+
+                                     <a href="#" class="on_money">立即付款</a><br>
+
+
+
+                                     <font class="red2"><a href="#" onclick="if (!confirm('您确认要取消该订单吗？取消后此订单将视为无效订单')) return false;">取消订单</a></font><br>
+
+
+                                 </td>
+                             </tr>
+                         </tbody>
+                         
+                         {{end}}
+                     </table>
+                     <input id="s_have_hidden" value="0" type="hidden">
+                     <div style="height:30px;line-heihgt:30px;clear:both"></div>
+                     <style>
+                         /*翻页*/
+                         .xm-pagenavi {
+                             padding: 30px 0px;
+                             text-align: center;
+                         }
+
+                             .xm-pagenavi .numbers {
+                                 display: inline-block;
+                                 height: 18px;
+                                 padding: 8px 13px;
+                                 margin: 0px 2px;
+                                 border: 1px solid #ddd;
+                                 background: #fff;
+                                 font-size: 14px;
+                                 line-height: 18px;
+                                 vertical-align: middle;
+                                 color: #333;
+                             }
+
+                             .xm-pagenavi .first, .xm-pagenavi .last {
+                                 border: 1px #DFDFDF solid;
+                                 cursor: pointer;
+                                 color: #A5A5A5;
+                             }
+
+                         .iconfont {
+                             font-family: "iconfont" !important;
+                             font-style: normal;
+                             color: #A5A5A5;
+                         }
+
+                         .xm-pagenavi span.current {
+                             color: #fff;
+                             background: #E4393C;
+                             border: 1px #E4393C solid;
+                         }
+                     </style>
+
+                    
+                 
+                     <div style="height:30px;line-heihgt:30px;clear:both"></div>
+                      
+
+                 </div>
+             </div>
+
+         </div>
+     
+     
+        </div>
+
+    <div style="height: 10px; line-height: 10px; clear: both;"></div>
+    <div class="blank"></div>
+</div>

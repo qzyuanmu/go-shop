@@ -1,0 +1,589 @@
+﻿<!DOCTYPE  html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>{{.Title}}</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico" />
+    <meta name="keywords" content="{{.KeyWords}}" />
+    <meta name="description" content="{{.Description}}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/static/addons/ace/assets/js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/static/tpl/market/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/68ecshop_commin.css" />
+    <link rel="stylesheet" type="text/css" href="/static/tpl/market/css/style_jm.css" />
+
+
+
+    <script type="text/javascript" src="/static/tpl/market/js/jquery-lazyload.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jqueryAll.index.min.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/jump.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".brand-wall-content img").each(function (k, img) {
+                new JumpObj(img, 10);
+            });
+        });
+        var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+        var btn_buy = "购买";
+        var is_cancel = "取消";
+        var select_spe = "请选择商品属性";
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/jquery.json.js">
+    </script>
+    <script type="text/javascript" src="/static/tpl/market/js/transport.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/utils.js"></script>
+
+    <script type="text/javascript" src="/static/tpl/market/js/common.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/common.min.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/shopping_flow.js"></script>
+    <script type="text/javascript" src="/static/tpl/market/js/showdiv.js"></script>
+
+</head>
+
+
+
+<body style="cursor: auto;">
+    {{template "tpl/market/share/_top_box.html" .}}		
+
+
+
+ <div class="headerLayout" style="padding-top: 15px; padding-bottom: 5px;">
+     <div class="headerCon ">
+         <h1 id="mallLogo" style="padding-top: 10px;">
+             <a href='{{urlfor "MkController.Index"}}' class="header-logo">
+                 <img src="/static/img/logo.png" /></a></h1>
+         <div class="header-extra">
+         </div>
+     </div>
+ </div>
+
+    <div class="block_jm">
+        <div id="A_Stepbar" class="flowstep">
+            <ol class="flowstep-5">
+                <li class="step-first">
+                    <div class="step-done">
+                        <div class="step-name">查看购物车</div>
+                        <div class="step-no"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-done">
+                        <div class="step-name">拍下商品</div>
+                        <div class="step-no">2</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-name">付款</div>
+                    <div class="step-no">3</div>
+                </li>
+                <li>
+                    <div class="step-name">确认收货</div>
+                    <div class="step-no">4</div>
+                </li>
+                <li class="step-last">
+                    <div class="step-name">评价</div>
+                    <div class="step-no">5</div>
+                </li>
+            </ol>
+        </div>
+
+
+
+        <script type="text/javascript">
+            var user_name_empty = "请输入您的用户名！";
+            var email_address_empty = "请输入您的电子邮件地址！";
+            var email_address_error = "您输入的电子邮件地址格式不正确！";
+            var new_password_empty = "请输入您的新密码！";
+            var confirm_password_empty = "请输入您的确认密码！";
+            var both_password_error = "您两次输入的密码不一致！";
+            var show_div_text = "请点击更新购物车按钮";
+            var show_div_exit = "关闭";
+        </script>
+        <div class="blank5"></div>
+        <form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
+            <script type="text/javascript">
+                var flow_no_payment = "您必须选定一个支付方式。";
+                var flow_no_shipping = "您必须选定一个配送方式。";
+            </script>
+            <div class="blank10"></div>
+            <div class="checkBox_jm clearfix">
+                <div class="title">1 地址选择</div>
+
+                <div class="address_jm" id="AddressList">
+                    <ul>
+                        <li class="curr" onmouseover="showAddressEdit(this);" onmouseout="showAddressEdit(this);">
+                            <div style="width: 100%; height: 100%;" onclick="selAddress(this, 816);">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td>吴吉余<br>
+                                                绵竹-二环内-东城区&nbsp;三衢路307号<br>
+                                                15157055100</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="edit_addr" id="address_edit_0"><a href="javascript:AddressEdit(816);">修改</a> <a href="javascript:del_Address(816);" onclick="return confirm('您确认要删除吗？');">删除</a></div>
+                        </li>
+                    </ul>
+                    <div class="blank10"></div>
+                    <div class="address_jm_add" onclick="AddressEdit(0);">使用新地址</div>
+                </div>
+
+
+
+
+                <div id="popDiv" class="mydiv" style="display: none;">
+                    <div class="mydiv-l" id="PopAddressTitle">使用新地址</div>
+                    <div class="mydiv-r" onclick="javascript:closePopDiv()"></div>
+                    <div id="PopAddressCon">
+                        {{template "tpl//market/share/_u_address.html" .}}	
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+
+                function AddressEdit(aid) {
+                    if (aid) {
+                        document.getElementById('PopAddressTitle').innerHTML = '修改地址';
+                    }
+                    else {
+                        document.getElementById('PopAddressTitle').innerHTML = '使用新地址';
+                    }
+                    document.getElementById('popDiv').style.display = 'block';
+                    document.getElementById('bg').style.display = 'block';
+
+                    //Ajax.call('flow.php?act=EditAddress', 'address_id=' + aid, AddressEdit_Response, 'GET', 'JSON');
+                }
+                function AddressEdit_Response(result) {
+                    var PopAddressCon = document.getElementById('PopAddressCon');
+                    PopAddressCon.innerHTML = result.content;
+                    document.getElementById('popDiv').style.display = 'block';
+                    document.getElementById('bg').style.display = 'block';
+                }
+
+                function showPopDiv() {
+                    document.getElementById('popDiv').style.display = 'block';
+                    document.getElementById('bg').style.display = 'block';
+                }
+                function closePopDiv() {
+                    document.getElementById('popDiv').style.display = 'none';
+                    document.getElementById('bg').style.display = 'none';
+                }
+
+                function showAddressEdit(obj) {
+                    if (obj.className != 'curr') {
+                        obj.className = obj.className == 'xxxxxx' ? '' : 'xxxxxx';
+                    }
+                }
+                function selAddress(obj, address_id) {
+                    var addrParent = obj.parentNode;
+                    var addrYeye = addrParent.parentNode;
+                    var addrList = addrYeye.getElementsByTagName('li');
+                    for (i = 0; i < addrList.length; i++) {
+                        addrList[i].className = '';
+                    }
+                    addrParent.className = 'curr';
+                    Ajax.call('flow.php?act=selAddress', 'address_id=' + address_id, selAddress_response, 'GET', 'JSON');
+                }
+                function selAddress_response(result) {
+                    top.location.href = top.location.href;
+                }
+
+                function del_Address(address_id) {
+                    Ajax.call('flow.php?act=delAddress', 'address_id=' + address_id, delAddressResponse, 'GET', 'JSON');
+                }
+                function delAddressResponse(result) {
+                    if (result.message) {
+                        alert(result.message);
+                    }
+
+                    if (result.error == 0) {
+                        var layer = document.getElementById('AddressList');
+
+                        if (layer) {
+                            layer.innerHTML = result.content;
+                        }
+                        if (result.content2) {
+                            document.getElementById("shippingBox").innerHTML = '<font color="#ff3300">&nbsp;&nbsp;&nbsp;正在重新导入配送区域，请稍候。。。</font>';
+                            document.getElementById("shippingBox").innerHTML = '<font style="color:#ff3300">配送区域已经变化，请重新选择物流<br><br></font>' + result.content2;
+                        }
+                        document.forms['theForm'].elements['have_consignee'].value = result.have_consignee;
+                    }
+                }
+
+                /**
+            * 提交地址信息
+            */
+                function submitAddress() {
+                    var frm = document.forms['theForm'];
+                    var cmt = new Object;
+                    cmt.address_id = frm.elements['address_id'].value;
+                    cmt.consignee = frm.elements['consignee'].value;
+                    cmt.address = frm.elements['address'].value;
+                    cmt.email = frm.elements['email'].value;
+                    cmt.zipcode = frm.elements['zipcode'].value;
+                    cmt.country = 1;//frm.elements['country'].value;
+                    cmt.province = frm.elements['province'].value;
+                    cmt.city = frm.elements['city'].value;
+                    cmt.district = frm.elements['district'].value;
+                    cmt.tel = frm.elements['tel_01'].value + "-" + frm.elements['tel_02'].value + (Utils.isEmpty(frm.elements['tel_03'].value) ? "" : "-" + frm.elements['tel_03'].value);
+                    cmt.mobile = frm.elements['mobile'].value;
+                    cmt.closediv = frm.elements['closediv'].value;
+                    cmt.shipping_bian = frm.elements['shipping_bian'].value;
+                    cmt.optionlength = frm.elements['district'].length;
+
+                    if (cmt.consignee.length == 0) {
+                        alert('收件人不能为空！');
+                        return false;
+                    }
+                    if (cmt.optionlength > 1) {
+                        if (cmt.province == '0' || cmt.city == '0' || cmt.district == '0') {
+                            alert('所在地区不完整！');
+                            return false;
+                        }
+                    }
+                    else {
+                        if (cmt.province == '0' || cmt.city == '0') {
+                            alert('所在地区不完整！');
+                            return false;
+                        }
+
+                    }
+                    /* 邮箱不是必填项
+                    if (cmt.email.length == 0)
+                    {
+                         alert('邮箱地址不能为空');
+                         return false;
+                    }
+                    */
+                    if (cmt.email.length > 0 && (!Utils.isEmail(cmt.email))) {
+                        alert('邮箱地址不正确');
+                        return false;
+                    }
+                    if (cmt.address.length == 0) {
+                        alert('街道地址不能为空！');
+                        return false;
+                    }
+
+                    if (cmt.mobile.length == 0 && (cmt.tel.length == 0 || cmt.tel == '--' || cmt.tel == '-')) {
+                        alert('手机号码和固定电话必须填写至少一项！');
+                        return false;
+                    }
+                    if (cmt.mobile.length > 0) {
+                        var reg = /^1[34578][0-9]\d{8}$/;
+                        if (!Utils.isMobile(cmt.mobile)) {
+                            alert('手机号码格式不正确！');
+                            return false;
+                        }
+                    }
+                    if (cmt.tel.length > 0 && cmt.tel != '--' && cmt.tel != '-') {
+                        var reg = /^[\d|\-|\s]+$/;
+                        if (!Utils.isTel(cmt.tel)) {
+                            alert('固定电话格式不正确！');
+                            return false;
+                        }
+                    }
+
+                    Ajax.call('flow.php?act=saveAddress', 'address=' + $.toJSON(cmt), addressResponse, 'POST', 'JSON');
+
+                }
+
+                /* 处理提交地址的反馈信息  */
+                function addressResponse(result) {
+                    if (result.message) {
+                        alert(result.message);
+                    } else {
+                        top.location.href = top.location.href;
+                    }
+                    /*
+                    if (result.error == 0)
+                    {
+                    var layer = document.getElementById('AddressList');
+                    if (layer)
+                    {
+                        layer.innerHTML = result.content;
+                    }
+                    if(result.content2)
+                    {
+                        document.getElementById("shippingBox").innerHTML='<font color="#ff3300">&nbsp;&nbsp;&nbsp;正在重新导入配送区域，请稍候。。。</font>';
+                        document.getElementById("shippingBox").innerHTML= '<font style="color:#ff3300">配送区域已经变化，请重新选择物流<br><br></font>'+result.content2;
+                    }
+                    document.forms['theForm'].elements['have_consignee'].value='1';
+                    if (result.closediv == '1')
+                    {
+                        closePopDiv();
+                    }
+                    }*/
+
+                }
+
+            </script>
+
+            <div class="checkBox_jm">
+                <div class="title">2 送货时间 <span class="songhuo">送货时间仅作参考，快递公司会尽量满足您的要求</span></div>
+                <div class="timebox">
+                    <ul>
+
+                        <li class="curr" id="time_id_1" onclick="javascript:setTimeSh('1');">
+                            <input id="time_delivery1" type="radio" name="best_time" value="仅工作日送货" checked="checked">
+                            <label for="time_delivery1">仅工作日送货</label>
+                        </li>
+                        <li id="time_id_2" onclick="javascript:setTimeSh('2');">
+                            <input id="time_delivery2" type="radio" name="best_time" value="仅周末送货">
+                            <label for="time_delivery2">仅周末送货</label>
+                        </li>
+                        <li id="time_id_3" onclick="javascript:setTimeSh('3')">
+                            <input id="time_delivery3" type="radio" name="best_time" value="工作日/周末/假日均可">
+                            <label for="time_delivery3">工作日/周末/假日均可</label>
+                        </li>
+                        <li id="time_id_4" onclick="javascript:setTimeSh('4')">
+                            <input id="time_delivery4" type="radio" name="best_time" value="自提">
+                            <label for="time_delivery4">自提</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="blank"></div>
+            </div>
+
+            <div class="checkBox_jm">
+                <div class="title">3 商品清单</div>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="checkgoods">
+                    <tbody>
+                        <tr>
+                            <th width="50%" align="left" class="tdone">商品</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                            <th>小计</th>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="background: #FAFAFA; border-top: 2px solid #d9d9d9; font-weight: bold; padding: 5px 10px;">赵君记</td>
+                        </tr>
+                        <tr>
+                            <td width="50%" style="border-top: none;">
+                                <div class="thumb_name">
+                                    <dl>
+                                        <dt><a href="goods.php?id=8746" target="_blank">
+                                            <img src="images/201510/thumb_img/8746_thumb_G_1444953846253.jpg" style="border: 1px solid #ddd;" title="赵君记 休闲零食下酒小吃卤味鸭舌"></a> </dt>
+                                        <dd><a href="goods.php?id=8746" target="_blank" class="f6">赵君记 休闲零食下酒小吃卤味鸭舌</a>
+                                            <br>
+                                            <font class="attrname">规格:250g/份 <br>
+</font>
+
+
+                                        </dd>
+                                    </dl>
+                                </div>
+
+                            </td>
+                            <td align="center" style="border-top: none;">1</td>
+                            <td align="center" class="price_font" style="border-top: none;">￥36.00</td>
+                            <td align="center" class="price_font" style="border-top: none;">￥36.00</td>
+                        </tr>
+                        <tr>
+                            <td width="50%" style="border-top: none;">
+                                <div class="thumb_name">
+                                    <dl>
+                                        <dt><a href="goods.php?id=8746" target="_blank">
+                                            <img src="images/201510/thumb_img/8746_thumb_G_1444953846253.jpg" style="border: 1px solid #ddd;" title="赵君记 休闲零食下酒小吃卤味鸭舌"></a> </dt>
+                                        <dd><a href="goods.php?id=8746" target="_blank" class="f6">赵君记 休闲零食下酒小吃卤味鸭舌</a>
+                                            <br>
+                                            <font class="attrname">规格:250g/份 <br>
+</font>
+
+
+                                        </dd>
+                                    </dl>
+                                </div>
+
+                            </td>
+                            <td align="center" style="border-top: none;">1</td>
+                            <td align="center" class="price_font" style="border-top: none;">￥36.00</td>
+                            <td align="center" class="price_font" style="border-top: none;">￥36.00</td>
+                        </tr>
+
+
+
+
+
+
+                    </tbody>
+                </table>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="checkgoods">
+                    <tbody>
+                        <tr>
+                            <td colspan="4" class="tdother2">
+                                <div class="checkout_other">
+                                    <a class="jmbag" href="javascript:void(0);" onclick="showCheckoutOther(this);"><span>+</span>缺货处理</a>
+                                    <table class="subbox_other" width="100%">
+
+                                        <tbody width="100%" cellpadding="5" cellspacing="0">
+                                            <tr>
+                                                <td align="right" width="100">缺货处理：</td>
+                                                <td colspan="4">
+                                                    <label>
+                                                        <input name="how_oos" type="radio" value="0" checked="" onclick="changeOOS(this)">
+                                                        等待所有商品备齐后再发</label>
+
+
+                                                    <label>
+                                                        <input name="how_oos" type="radio" value="1" onclick="changeOOS(this)">
+                                                        取消订单</label>
+
+
+                                                    <label>
+                                                        <input name="how_oos" type="radio" value="2" onclick="changeOOS(this)">
+                                                        与店主协商</label>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="tdother2">
+                                <div class="checkout_other">
+                                    <a class="jmbag" href="javascript:void(0);" onclick="showCheckoutOther(this);"><span>+</span>订单附言</a>
+                                    <table class="subbox_other" width="100%">
+                                        <tbody width="100%" cellpadding="5" cellspacing="0">
+                                            <tr>
+                                                <td align="right" width="100" valign="top">订单附言：</td>
+                                                <td colspan="4">
+                                                    <textarea name="postscript" cols="80" rows="3" id="postscript" style="border: 1px solid #ccc;"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <script type="text/javascript">
+                            var fapiao_con = document.getElementById('ECS_INVCONTENT');
+                            if (fapiao_con.value == '0') {
+                                document.getElementById('ECS_INVPAYEE').disabled = true;
+                            }
+                            else {
+                                document.getElementById('ECS_INVPAYEE').disabled = false;
+                            }
+                        </script>
+
+                    </tbody>
+                </table>
+                <div class="blank10"></div>
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td align="right">
+                                <div id="ECS_ORDERTOTAL">
+
+                                    <table width="99%" align="center" border="0" cellpadding="1" cellspacing="1" bgcolor="#ffffff">
+
+                                        <tbody>
+                                            <tr>
+                                                <td align="right" bgcolor="#ffffff">该订单完成后，您将获得 
+            <font class="f4_b">45</font>积分 积分            ，以及价值               <font class="f4_b">￥0.00</font>的红包。
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" bgcolor="#ffffff">商品总价: <font class="f4_b">￥45.30</font>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right" bgcolor="#ffffff">应付款金额： <font class="f4_b" style="font-size: 18px; font-family: 微软雅黑;">￥45.30</font>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <script type="text/javascript">
+
+                function showCheckoutOther(obj) {
+                    var otherParent = obj.parentNode;
+                    otherParent.className = (otherParent.className == 'checkout_other') ? 'checkout_other2' : 'checkout_other';
+                    var spanzi = obj.getElementsByTagName('span')[0];
+                    spanzi.innerHTML = spanzi.innerHTML == '+' ? '-' : '+';
+                }
+
+            </script>
+
+
+
+
+
+
+            <script type="text/javascript">
+
+                function setTimeSh(id) {
+                    for (i = 1; i <= 4; i++) {
+                        document.getElementById('time_id_' + i).className = '';
+                    }
+                    var timeid = document.getElementById('time_id_' + id);
+                    timeid.className = 'curr';
+                }
+                function selTimeSh(obj) {
+                    document.getElementById('definetime_input').checked = true;
+                    document.getElementById('definetime').innerHTML = "指定送货时间 <font color=#ff3300>" + obj.name + "</font>";
+                    document.getElementById('definetime_input').value = "指定送货时间 " + obj.name;
+                }
+                function selPayment(obj) {
+                    var con_country = document.forms['theForm'].elements['have_consignee'].value;
+                    if (con_country == '0') {
+                        alert('请先选择配送地址！');
+                        obj.checked = false;
+                        return;
+                    }
+                    var paymentList = obj.getElementsByTagName('input');
+                    if (paymentList[0].disabled != true) {
+                        var payParent = obj.parentNode;
+                        var payList = payParent.getElementsByTagName('li');
+                        for (i = 0; i < payList.length; i++) {
+                            payList[i].className = '';
+                        }
+                        obj.className = 'seled';
+
+                        for (var i = 0; i < paymentList.length; i++) {
+                            if (paymentList[i].name == 'payment' && !paymentList[i].disabled) {
+                                paymentList[i].checked = true;
+                            }
+                        }
+                    }
+                }
+
+            </script>
+            <div class="flowBox_jm clearfix" style="border: none; padding-bottom: 20px;">
+                <div style="float: left; width: 40%; padding: 8px 0; padding-left: 5px;"><a href='{{urlfor "UserCenterController.Cart"}}' class="continue_buy" style="padding: 0;">返回修改购物车</a> </div>
+                <div style="float: right; width: 55%; text-align: right; padding: 8px 20px;">
+
+                    <input onclick="return check_before_submit()" type="image" src="/static/tpl/market/images/jmpic/btn_done.gif" align="absmiddle">
+
+                    <input name="need_inv" style="display: none;" type="checkbox" class="input" id="ECS_NEEDINV" onclick="changeNeedInv()" value="1" checked="true">
+                    <input type="hidden" name="step" value="done">
+                    <input type="hidden" name="have_consignee" value="0">
+                </div>
+            </div>
+            <div class="blank10"></div>
+        </form>
+
+
+
+
+
+        <div class="blank"></div>
+
+
+    </div>
+
+    {{template "tpl//market/share/_bottom_box.html" .}}	
+
+ 
+
+ 
+	  
+</body>
+</html>

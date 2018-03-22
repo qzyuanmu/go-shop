@@ -1,0 +1,88 @@
+﻿ <div class="globa-nav">
+    <div class="w">
+        <div class="allGoodsCat Left {{.hover}}   "    {{if ne .hover "hover" }}   onmouseover="_show_(this)" onmouseout="_hide_(this)" {{end}}  >
+            <a href="#" class="menuEvent" title="查看全部商品分类"><strong class="catName">全部商品分类</strong><i></i></a>
+            <div class="expandMenu all_cat" style="background: #ffffff; filter: alpha(Opacity=80); background-color: rgba(255,255,255,.8);">
+                {{range $i1,$c1 :=.cs}}{{if eq $c1.ParentId 0}} 
+                <div class="list"
+                    onmouseover="_show_(this,{'source':'JS_side_cat_textarea_{{$c1.DisplayOrder}}','target':'JS_side_cat_list_{{$c1.DisplayOrder}}'});"
+                    onmouseout="_hide_(this);">
+                    <dl class="cat">
+                        <dt class="catName">
+                            <strong class="cat{{$c1.DisplayOrder}} Left">
+                                <a href="#" title="{{ $c1.Name}}">{{$c1.Name}}</a>
+                            </strong>
+                            <p>
+                                {{range $i4,$c4:= $.cs}}{{if eq $c4.ParentId $c1.Id}}
+                                <a href="#" title="{{$c4.Name}}">{{$c4.Name}}</a>   
+                                {{end}}{{end}} 
+                            </p>
+                        </dt>
+                    </dl>
+                    <textarea id="JS_side_cat_textarea_{{$c1.DisplayOrder}}" class="none">
+		<div class="topMap clearfix">
+			<div class="subCat clearfix"> 
+                {{range $i2,$c2:= $.cs}}{{if eq $c2.ParentId $c1.Id}}
+            				<div class="list1 clearfix" >
+					<div class="cat1">
+                        <a href="#" target="_blank" title="{{$c2.Name}}">{{$c2.Name}}：</a>
+                    </div>
+					<div class="link1 "> 
+                   {{range $i3,$c3:= $.cs}}{{if eq $c3.ParentId $c2.Id}}
+                        <a href="#" target="_blank" title="{{$c3.Name}}">{{$c3.Name}}</a> 
+                        {{end}}{{end}} 
+        			</div>
+				</div>
+                {{end}}{{end}} 	
+			</div>
+			<div class="subBrand"> <dl class="categorys-brands">
+                 <dt>推荐品牌</dt>
+                 <dd>
+                 	<ul>                                    
+              </ul>
+                  </dd>
+                </dl>
+              </div> 	</div>
+	</textarea>
+                    <div id="JS_side_cat_list_{{$c1.DisplayOrder}}" class="hideMap Map_positon{{$c1.DisplayOrder}}"></div>
+                </div>
+                {{end}}{{end}} 
+            </div>
+        </div>
+        <ul class="allMenu Left">
+            <li><a class="index nav" href='{{urlfor "MkController.Index"}}' title="首页">首页</a></li>
+ 
+        </ul>
+    </div>
+ </div>
+<script type="text/javascript">
+    function _show_(h, b) {
+        if (!h) { return; }
+        if (b && b.source && b.target) {
+            var d = (typeof b.source == "string") ? M.$("#" + b.source) : b.source;
+            var e = (typeof b.target == "string") ? M.$("#" + b.target) : b.target;
+            if (d && e && !e.isDone) {
+                e.innerHTML = d.value; d.parentNode.removeChild(d);
+                if (typeof b.callback == "function") { b.callback(); } e.isDone = true;
+            }
+        } M.addClass(h, "hover"); if (b && b.isLazyLoad && h.isDone) {
+            var g = h.find("img");
+            for (var a = 0, c = g.length; a < c; a++) {
+                var f = g[a].getAttribute("data-src_index_menu");
+                if (f) { g[a].setAttribute("src", f); g[a].removeAttribute("data-src_index_menu"); }
+            } h.isDone = true;
+        }
+    }
+    function _hide_(a) {
+        if (!a) { return; }
+        if (a.className.indexOf("hover") > -1) { M.removeClass(a, "hover"); }
+    }
+    function shoucang() {
+        var b = window.location.href;
+        var a = document.title;
+        try { window.external.addFavorite(b, a); }
+        catch (c) {
+            try { window.sidebar.addPanel(a, b, ""); }
+            catch (c) { alert("加入收藏失败，请使用Ctrl+D进行添加"); }
+        }
+    }</script>

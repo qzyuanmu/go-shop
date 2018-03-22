@@ -1,0 +1,398 @@
+﻿ <link href="/static/tpl/market/css/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="/static/addons/jQuery-File-Upload/css/jquery.fileupload.css">
+<script src="/static/addons/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/addons/jQuery-File-Upload/js/jquery.fileupload.js"></script> 
+<script src="/static/js/city.js"></script>
+<link href="/static/addons/nice-validator/jquery.validator.css" rel="stylesheet" />
+<script src="/static/addons/nice-validator/jquery.validator.js"></script>
+<script src="/static/addons/nice-validator/local/zh-CN.js"></script> 
+<link href="/static/tpl/market/css/store_joinin.css" rel="stylesheet" />
+
+<style>
+    #formEdit img{
+        width:100px;
+        height:100px;
+    }
+
+
+
+</style>
+
+
+<script>
+    $(function () {
+
+        setUpload();
+    });
+
+    function shopEdit() {
+
+        if ($("#formEdit").isValid()) {
+            var data = $("#formEdit").serialize();
+            $.post('{{urlfor "JsonUserController.Apply"}}', data, function (d) {
+                if (d.Result == 1) {
+
+                    window.location.reload();
+
+                } else {
+                    alert(d.Msg);
+                }
+            });
+        }
+        return false;
+
+
+    }
+
+    function setUpload() {
+        var url2 = '{{urlfor "UpImgController.JqUp2"}}';
+        $('.fileupload2').fileupload({
+            url: url2,
+            dataType: 'json',
+            done: function (e, data) {
+                var r = data.result;
+                $("#" + $(this).attr("i")).val(r.url3);
+                $("#" + $(this).attr("img")).attr("src","/"+r.url3).show();
+                 
+            },
+        }).prop('disabled', !$.support.fileInput)
+       .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+
+    }
+
+</script>
+
+<div class="blank"></div>
+<div class="w">
+    <div class="breadcrumb">
+        <i></i><a href='{{urlfor "MkController.Index"}}'>首页</a>
+        <code>&gt;</code> 用户中心
+    </div>
+</div>
+<div class="blank"></div>
+
+<div class="block clearfix">
+    {{template "tpl/market/share/_u_menu.html" .}}	
+
+     <div class="AreaR">
+         <div class="box">
+             <div class="box_1">
+                 <div class="userCenterBox boxCenterList clearfix">
+
+
+
+                     <div class="store-joinin-apply">
+  <div class="main">
+  	 
+    <script>
+        function radioShow(e) {
+            if (e == 1) {
+                $(".j_com").hide();
+                $("#ShopType").val("个人");
+
+            } if (e == 2) {
+                $(".j_com").show();
+                $("#ShopType").val("企业");
+            }
+
+        }
+	</script>
+      {{if gt .shop.Id 0}}
+        <table border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead>
+            <tr>
+              <th colspan="2" align="left">店铺审核中，请耐心等待</th>
+            </tr>
+          </thead>
+            </table>
+      {{else}} 
+    <form action="#" method="post" name="theForm"  id="formEdit" >
+    
+    <table border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead>
+            <tr>
+              <th colspan="2" align="left">请选择您的开店身份</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+              <input type="radio" name="apply_type" checked onclick="radioShow(1)">个人
+              <input type="radio" name="apply_type" onclick="radioShow(2)">企业
+                  <input type="hidden" id="ShopType" name="ShopType" value="个人" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    
+    <div id="apply_person_info" class="apply-company-info" style="display:block;">
+          <div class="note"><i></i>以下所需要上传的电子版资质文件仅支持JPG格式图片，大小请控制在4096K之内。</div>
+      <form id="form_person_info" name="form_person_info" action="apply.php" method="post" enctype="multipart/form-data" onsubmit="return supplier_person_Reg()">
+        <table border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead>
+            <tr>
+              <th colspan="2" align="left">请按照提示填写本人真实的资料</th>
+            </tr>
+          </thead>
+          <tbody>
+             
+            <tr>
+              <th><i>*</i>店铺名称：</th>
+              <td>
+	      		<input name="Name" type="text" value="" class="w200" data-rule="required;" />
+                 </td>
+            </tr>
+                <tr>
+              <th><i>*</i>店铺分类：</th>
+              <td>
+	      		   <select name="ShopClass" id="ShopClass"  >
+
+
+                                                     <option value="0">店铺分类</option>
+                                                     {{range .shopClass}}
+                                        <option value="{{.Name}}"   >
+                                            {{.Name}}</option>
+                                                     {{end}}
+
+                                                 </select>
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>联系地址：</th>
+               <td>
+                   
+                    <select name="ProvinceId" id="ProvinceId" onchange="getCity(this)">
+
+
+                                                     <option value="0">省份</option>
+                                                     {{range .provinces}}
+                                        <option value="{{.Id}}" 
+                                             {{if eq .Id $.u.ProvinceId}}selected{{end}}>
+                                            {{.Name}}</option>
+                                                     {{end}}
+
+                                                 </select>
+                                                 <select name="CityId" id="CityId" onchange="getDistrict(this)">
+                                                     <option value="0">地市</option>
+                                                        {{range .citys}}
+                                        <option value="{{.Id}}" 
+                                             {{if eq .Id $.u.CityId}}selected{{end}} >{{.Name}}</option>
+                                                     {{end}}
+
+                                                 </select>
+
+                                                 <select name="DistrictId" id="DistrictId">
+                                                     <option value="0">县区</option>
+
+                                                        {{range .districts}}
+                                        <option value="{{.Id}}" 
+                                             {{if eq .Id $.u.DistrictId}}selected{{end}}  >{{.Name}}</option>
+                                                     {{end}}
+
+
+                                                 </select>
+                  
+
+
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>详细地址：</th>
+              <td>
+	      <input name="Address" id="Address" class="w200" type="text" value="" data-rule="required;" />
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>姓名：</th>
+              <td><input name="Contact" id="Contact" type="text" class="w100" value="" data-rule="required;" />
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>固定电话：</th>
+              <td><input name="Phone" id="Phone" type="text" class="w100" value="" data-rule="required;" />
+                <span></span></td>
+            </tr> 
+              <tr>
+              <th><i>*</i>推荐人：</th>
+              <td>
+                  
+                  <input type="text" name="Introducer" id="Introducer" size="45" value="{{.user.Introducer}}"
+                       class="w200" data-rule="required;" />
+               
+                 
+                  
+                   <span></span></td>
+            </tr>
+              <tr>
+              <th><i>*</i>店铺地图：</th>
+              <td>
+                  <span class="btn btn-success fileinput-button col-xs-2">
+                                                 <i class="glyphicon glyphicon-plus"></i>
+                                                 <span>上传照片</span>
+                       <input class="fileupload2" type="file" name="files[]" i="MapImg" img="mapImg" multiple="">
+                     </span>
+                  <img  class="hide" id="mapImg" />
+                  <input name="MapImg"  id="MapImg" type="hidden"  />   
+              </td>
+            </tr> 
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="20">&nbsp;</td>
+            </tr>
+          </tfoot>
+        </table>
+        
+        <table border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead>
+            <tr>
+              <th colspan="20" align="left">身份证信息</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><i>*</i>身份证号码：</th>
+              <td><input name="ShengFZ" id="ShengFZ" type="text" class="w200" value="" data-rule="required;" />
+                <span></span></td>
+            </tr> 
+            
+            <tr>
+              <th><i>*</i>身份证正面：</th>
+              <td>
+                  
+                <span class="btn btn-success fileinput-button col-xs-2">
+                                                 <i class="glyphicon glyphicon-plus"></i>
+                                                 <span>上传照片</span>
+                       <input class="fileupload2" type="file" name="files[]" i="ShengFZImg" img="sfzImg" multiple="">
+                     </span>
+                  <img  class="hide" id="sfzImg" />
+                  <input name="ShengFZImg"  id="ShengFZImg" type="hidden"  />   
+
+
+              </td>
+              
+            </tr>
+            
+            <tr>
+              <th><i>*</i>身份证反面：</th>
+              <td> 
+                  <span class="btn btn-success fileinput-button col-xs-2">
+                 <i class="glyphicon glyphicon-plus"></i>
+                 <span>上传照片</span>
+               <input class="fileupload2" type="file" name="files[]" i="ShengFZFImg" img="sfzfImg" multiple="">
+              </span>
+                  <img  class="hide" id="sfzfImg" />
+                  <input name="ShengFZFImg"  id="ShengFZFImg" type="hidden"  /> 
+                   
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="20">&nbsp;</td>
+            </tr>
+          </tfoot>
+    	</table>
+
+		 <div class="j_com" style="display:none" > 
+
+
+           <table   border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead>
+            <tr>
+              <th colspan="20" align="left">营业执照信息（副本）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><i>*</i>营业执照号：</th>
+              <td><input name="YYzhizhao" id="YYzhizhao"  type="text" class="w200" value="">
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>法定经营范围：</th>
+              <td><textarea name="YYzhizhaoInfo" id="YYzhizhaoInfo" rows="3" class="w200"></textarea>
+                <span></span></td>
+            </tr>
+
+            <tr>
+              <th><i>*</i>营业执照号电子版：</th>
+              <td>
+	       <span class="btn btn-success fileinput-button col-xs-2">
+                 <i class="glyphicon glyphicon-plus"></i>
+                 <span>上传照片</span>
+               <input class="fileupload2" type="file" name="files[]" i="YYzhizhaoImg" img="yyzzImg" multiple="">
+              </span>
+                  <img  class="hide" id="yyzzImg" />
+                  <input name="YYzhizhaoImg"  id="YYzhizhaoImg" type="hidden"  /> 
+                              <span class="block">请确保图片清晰，文字可辨并有清晰的红色公章。</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="20">&nbsp;</td>
+            </tr>
+          </tfoot>
+        </table>
+        <table     border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead>
+            <tr>
+              <th colspan="20" align="left">生产许可证</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><i>*</i>生产许可证代码：</th>
+              <td><input name="ShengCXKZ" id="ShengCXKZ" type="text" class="w200" value="">
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>生产许可证证电子版：</th>
+              <td>
+                  <span class="btn btn-success fileinput-button col-xs-2">
+                 <i class="glyphicon glyphicon-plus"></i>
+                 <span>上传照片</span>
+               <input class="fileupload2" type="file" name="files[]" i="ShengCXKZImg" img="scxkzImg" multiple="">
+              </span>
+                  <img  class="hide" id="scxkzImg" />
+                  <input name="ShengCXKZImg"  id="ShengCXKZImg" type="hidden"  />               
+                  
+                  
+                   <span class="block">请确保图片清晰，文字可辨并有清晰的红色公章。</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="20">&nbsp;</td>
+            </tr>
+          </tfoot>
+        </table>
+
+          </div>
+
+	   
+      <div class="bottom">
+      <input onclick="shopEdit()"  style="width:100px"  value="确认提交申请" class="btn"></div>
+      </form>
+    </div>
+    
+    </form>
+    {{end}}
+    
+  </div>
+</div>
+
+
+                      
+
+                 </div>
+             </div>
+
+         </div>
+     </div>
+
+    <div style="height: 10px; line-height: 10px; clear: both;"></div>
+    <div class="blank"></div>
+</div>
